@@ -1,12 +1,12 @@
 ---
 name: hermes-optimizer
-description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits config, reduces token waste, and applies safe high-ROI fixes."
-version: 1.1.0
+description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits live config, verifies models, and applies safe high-ROI fixes across provider stacks."
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 metadata:
   hermes:
-    tags: [hermes, optimization, cost-control, routing, skills, guardrails]
+    tags: [hermes, optimization, cost-control, routing, skills, guardrails, finops]
     related_skills: [hermes-agent, hermes-auxiliary-optimization, token-budget-guard, cost-control]
 ---
 
@@ -14,40 +14,170 @@ metadata:
 
 ## Overview
 
-Use this skill when the user wants Hermes itself optimized for lower cost, better routing, safer autonomous operation, and lower prompt overhead.
+Optimize Hermes Agent for lower spend, better routing, safer autonomous behavior, and lower prompt overhead.
 
-This skill is opinionated toward high-ROI, low-risk changes first:
+This skill is intentionally **provider-agnostic**. It does not assume one fixed model catalog. Instead, it teaches a lane-based optimization method and requires live verification before changing a user's configuration.
+
+The highest-ROI optimization order is usually:
+
 1. auxiliary routing
 2. runaway-loop protection
 3. checkpoints
 4. fallback chain
-5. skills prompt bloat reduction
+5. skills prompt-bloat reduction
 
-## Recommended lane split
+## When to Use
 
-Do **not** hardcode one user's provider catalog as the universal answer.
-Choose by lane and by live availability.
+Use this skill when:
 
-- Heavy: `compression`, `web_extract`, `kanban_decomposer`, `curator`
-  - choose the strongest affordable long-context text model that actually works in that user's stack
-- Medium: `approval`, `triage_specifier`, `profile_describer`
-  - choose a fast, cheap reasoning/classifier model
-- Light/internal-search: `session_search`, `skills_hub`, `mcp`, `title_generation`
-  - choose the cheapest stable model with clean short outputs and enough context
-- Vision:
-  - choose a verified live multimodal model; if the alternate provider has none, keep vision on the known-good main provider
+- the user says "optimize Hermes"
+- the user is burning too many tokens or provider credits
+- auxiliary tasks are all using the main model
+- the system feels expensive, noisy, or unstable
+- there are too many enabled skills and prompt overhead is growing
+- the user wants a reusable optimization baseline for their Hermes setup
 
-## Rules
+Do **not** use this skill as a hardcoded provider recipe for every user. Verify each user's live catalog and actual working models first.
 
-1. Read live `~/.hermes/config.yaml` first.
-2. Verify candidate models with real test calls.
-3. Keep the user's preferred main model/provider unless they ask to change it.
-4. Use cheap models for internal search/routing tasks.
-5. Use stronger models for heavy auxiliary tasks.
-6. Backup config before edits.
-7. Re-read config and verify after edits.
+## Core Rules
 
-## Provider-profile examples
+1. **Read live config first.** Start with `~/.hermes/config.yaml`.
+2. **Verify models with real calls.** Never trust stale caches, screenshots, or old notes alone.
+3. **Preserve user intent.** If the user wants Azure GPT as main, optimize around that instead of replacing it.
+4. **Use lane-based routing.** Pick models by task class, not by hype.
+5. **Keep examples separate from policy.** User-specific mappings belong in notes/references, not the universal skill body.
+6. **Back up config before edits.**
+7. **Re-read and verify after every config change.**
 
-Provider-specific mappings should live in `references/` or `notes/`, not in the core body of the skill.
-This repo's `notes/current-routing.md` is one user-specific snapshot, not a global default.
+## Lane Model
+
+### Heavy lane
+Use a stronger long-context text model for:
+- `compression`
+- `web_extract`
+- `kanban_decomposer`
+- `curator`
+
+Selection criteria:
+- best verified long-context behavior
+- strong summarization / reasoning quality
+- acceptable cost relative to the user's stack
+
+### Medium lane
+Use a fast, cheaper reasoning/classifier model for:
+- `approval`
+- `triage_specifier`
+- `profile_describer`
+
+Selection criteria:
+- low latency
+- acceptable judgment quality
+- much cheaper than the main model
+
+### Light / internal-search lane
+Use the cheapest stable text model for:
+- `session_search`
+- `skills_hub`
+- `mcp`
+- `title_generation`
+
+Selection criteria:
+- cheap
+- stable short outputs
+- enough context window for Hermes
+- good at summarizing already-retrieved material
+
+### Vision lane
+Use a **verified live multimodal** route only.
+
+If the alternate provider has no proven live vision model:
+- keep `auxiliary.vision` on the known-good main provider
+
+## Optimization Workflow
+
+### Step 1 — Audit live configuration
+Check:
+- main provider/model
+- fallback chain
+- auxiliary block
+- approvals mode
+- loop guardrails
+- checkpoints
+- enabled/disabled skill scope
+
+### Step 2 — Inventory live model options
+Gather the real model catalog available to this user.
+
+Then classify candidates by lane:
+- heavy
+- medium
+- light
+- vision
+
+### Step 3 — Verify real candidates
+Run real one-shot tests.
+
+Reject models that:
+- 404 live
+- are retired
+- fail Hermes minimum context requirements
+- have unstable or malformed behavior on simple smoke tests
+
+### Step 4 — Apply high-ROI config changes
+Typical wins:
+- split auxiliary lanes away from the premium main model
+- enable `tool_loop_guardrails.hard_stop_enabled`
+- enable `checkpoints.enabled`
+- switch `approvals.mode` to `smart`
+- add a real fallback chain
+- disable obviously irrelevant skills
+- enable curator consolidation where appropriate
+
+### Step 5 — Verify after changes
+After editing:
+1. re-read `config.yaml`
+2. verify fallback with `hermes fallback list`
+3. smoke-test the main model
+4. restart Hermes when needed
+5. confirm the new session behavior instead of trusting UI alone
+
+## Skills Overhead Guidance
+
+Too many enabled skills can increase prompt overhead and increase the chance of irrelevant skill activation.
+
+Safe cleanup pattern:
+- disable obviously irrelevant platform-specific skills
+- disable unused gaming / server / red-team skills unless the user wants them
+- keep a provenance note so the cleanup is reversible
+- prefer disabling over deleting
+
+## Common Pitfalls
+
+1. **Hardcoding one provider catalog as universal truth**
+2. **Routing light tasks to expensive frontier models**
+3. **Trusting cached model lists without real tests**
+4. **Leaving `hard_stop_enabled` off on a cost-sensitive setup**
+5. **Treating user-specific routing snapshots as official defaults**
+6. **Assuming vision alternatives exist when they are retired or broken**
+
+## Verification Checklist
+
+- [ ] live `config.yaml` inspected
+- [ ] config backup created before edits
+- [ ] main model preserved unless user requested otherwise
+- [ ] fallback chain configured and listed
+- [ ] heavy/medium/light/vision lanes separated
+- [ ] loop hard-stop enabled
+- [ ] checkpoints enabled when appropriate
+- [ ] irrelevant skills disabled instead of deleted
+- [ ] every candidate model verified with a real test call
+- [ ] post-change behavior checked after restart
+
+## Provenance
+
+This skill is a synthesis of multiple optimization-oriented skills plus Hermes-specific runtime verification.
+
+See supporting references in this repo for:
+- imported upstream skills
+- synthesis map
+- user-specific routing examples
