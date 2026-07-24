@@ -1,7 +1,7 @@
 ---
 name: hermes-optimizer
-description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits live config, verifies models, and applies safe high-ROI fixes across provider stacks."
-version: 1.2.0
+description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits live config, infers provider stack, verifies models, and applies safe high-ROI fixes."
+version: 1.3.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -16,7 +16,7 @@ metadata:
 
 Optimize Hermes Agent for lower spend, better routing, safer autonomous behavior, and lower prompt overhead.
 
-This skill is intentionally **provider-agnostic**. It does not assume one fixed model catalog. Instead, it teaches a lane-based optimization method and requires live verification before changing a user's configuration.
+This skill is intentionally **provider-agnostic**. It does not assume one fixed model catalog or one user's subscription. Instead, it teaches an optimization method that starts from **live autodiscovery** of the user's provider stack and then applies lane-based routing and guardrail improvements.
 
 The highest-ROI optimization order is usually:
 
@@ -37,17 +37,38 @@ Use this skill when:
 - there are too many enabled skills and prompt overhead is growing
 - the user wants a reusable optimization baseline for their Hermes setup
 
-Do **not** use this skill as a hardcoded provider recipe for every user. Verify each user's live catalog and actual working models first.
+Do **not** use this skill as a hardcoded provider recipe for every user. Infer the provider stack first.
 
 ## Core Rules
 
 1. **Read live config first.** Start with `~/.hermes/config.yaml`.
-2. **Verify models with real calls.** Never trust stale caches, screenshots, or old notes alone.
-3. **Preserve user intent.** If the user wants Azure GPT as main, optimize around that instead of replacing it.
-4. **Use lane-based routing.** Pick models by task class, not by hype.
-5. **Keep examples separate from policy.** User-specific mappings belong in notes/references, not the universal skill body.
-6. **Back up config before edits.**
-7. **Re-read and verify after every config change.**
+2. **Infer the provider stack.** Determine which provider/model is main and which auxiliary routes already exist.
+3. **Verify models with real calls.** Never trust stale caches, screenshots, or old notes alone.
+4. **Preserve user intent.** If the user wants Azure GPT as main, optimize around that instead of replacing it.
+5. **Use lane-based routing.** Pick models by task class, not by hype.
+6. **Keep examples separate from policy.** User-specific mappings belong in notes/references, not the universal skill body.
+7. **Back up config before edits.**
+8. **Re-read and verify after every config change.**
+
+## Provider Autodiscovery
+
+Before proposing any optimization, determine:
+
+- current main provider
+- current main model
+- fallback provider(s), if any
+- current auxiliary routing
+- whether vision is configured separately
+- whether the user is on a single-provider or mixed-provider setup
+
+Preferred evidence order:
+
+1. `~/.hermes/config.yaml`
+2. Hermes CLI state (`hermes config`, `hermes fallback list`, related live commands)
+3. real one-shot model tests
+4. user statement, if the environment is inaccessible
+
+If the config and the user's statement disagree, trust the live config and then ask about intentional overrides.
 
 ## Lane Model
 
@@ -105,7 +126,16 @@ Check:
 - checkpoints
 - enabled/disabled skill scope
 
-### Step 2 — Inventory live model options
+### Step 2 — Infer provider profile
+Classify the user's setup as one of:
+- single-provider premium stack
+- single-provider budget stack
+- mixed stack
+- main-on-premium plus aux-on-cheaper-provider
+
+This classification is descriptive only. It helps choose candidates but does not replace real verification.
+
+### Step 3 — Inventory live model options
 Gather the real model catalog available to this user.
 
 Then classify candidates by lane:
@@ -114,7 +144,7 @@ Then classify candidates by lane:
 - light
 - vision
 
-### Step 3 — Verify real candidates
+### Step 4 — Verify real candidates
 Run real one-shot tests.
 
 Reject models that:
@@ -123,7 +153,7 @@ Reject models that:
 - fail Hermes minimum context requirements
 - have unstable or malformed behavior on simple smoke tests
 
-### Step 4 — Apply high-ROI config changes
+### Step 5 — Apply high-ROI config changes
 Typical wins:
 - split auxiliary lanes away from the premium main model
 - enable `tool_loop_guardrails.hard_stop_enabled`
@@ -133,7 +163,7 @@ Typical wins:
 - disable obviously irrelevant skills
 - enable curator consolidation where appropriate
 
-### Step 5 — Verify after changes
+### Step 6 — Verify after changes
 After editing:
 1. re-read `config.yaml`
 2. verify fallback with `hermes fallback list`
@@ -154,15 +184,17 @@ Safe cleanup pattern:
 ## Common Pitfalls
 
 1. **Hardcoding one provider catalog as universal truth**
-2. **Routing light tasks to expensive frontier models**
-3. **Trusting cached model lists without real tests**
-4. **Leaving `hard_stop_enabled` off on a cost-sensitive setup**
-5. **Treating user-specific routing snapshots as official defaults**
-6. **Assuming vision alternatives exist when they are retired or broken**
+2. **Skipping provider autodiscovery and optimizing the wrong stack**
+3. **Routing light tasks to expensive frontier models**
+4. **Trusting cached model lists without real tests**
+5. **Leaving `hard_stop_enabled` off on a cost-sensitive setup**
+6. **Treating user-specific routing snapshots as official defaults**
+7. **Assuming vision alternatives exist when they are retired or broken**
 
 ## Verification Checklist
 
 - [ ] live `config.yaml` inspected
+- [ ] provider stack inferred from live state
 - [ ] config backup created before edits
 - [ ] main model preserved unless user requested otherwise
 - [ ] fallback chain configured and listed
@@ -177,7 +209,8 @@ Safe cleanup pattern:
 
 This skill is a synthesis of multiple optimization-oriented skills plus Hermes-specific runtime verification.
 
-See supporting references in this repo for:
+See supporting references for:
 - imported upstream skills
 - synthesis map
+- provider autodiscovery guide
 - user-specific routing examples
