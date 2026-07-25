@@ -18,7 +18,7 @@
 
 **A reusable Hermes skill for cost-aware routing, safer defaults, automatic model discovery, skill cleanup, and live provider autodiscovery.**
 
-<a href="#-quick-start">Quick Start</a> · <a href="#-features">Features</a> · <a href="#-skill-package">Skill Package</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-workflow">Workflow</a> · <a href="#-roadmap">Roadmap</a>
+<a href="#-quick-start">Quick Start</a> · <a href="#-zero-manual-optimization">Zero-Manual Optimization</a> · <a href="#-features">Features</a> · <a href="#-skill-package">Skill Package</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-workflow">Workflow</a> · <a href="#-roadmap">Roadmap</a>
 
 <img src="assets/hermes-optimizer-hero.svg" alt="Hermes Optimizer hero banner" width="100%">
 
@@ -115,6 +115,41 @@ hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-opt
 See [`PUBLISHING.md`](PUBLISHING.md) and [`RELEASE_COMMANDS.md`](RELEASE_COMMANDS.md).
 
 </details>
+
+---
+
+## 🪄 Zero-Manual Optimization
+
+The intended user experience is simple:
+
+```text
+Optimize my Hermes.
+```
+
+Then the skill should do the discovery work itself:
+
+1. inspect the active `config.yaml`
+2. detect configured providers and authenticated subscriptions
+3. inspect fallback and auxiliary routes already present
+4. enumerate reachable models when Hermes exposes provider/model commands
+5. probe likely candidates with real one-shot calls when enumeration is unavailable
+6. build heavy / medium / light / vision recommendations from the models that are actually reachable
+
+### What the user should *not* have to do
+
+- manually list every model they think they have
+- guess which provider is supplying which route
+- remember old screenshots or stale catalog snapshots
+- pre-sort models into “cheap” and “strong” buckets by hand
+
+### What the skill should return
+
+| Output | Meaning |
+|--------|---------|
+| **Detected environment** | Which providers, subscriptions, and routes Hermes can actually see |
+| **Reachable models** | Which candidate models really answered live checks |
+| **Lane mapping** | Which models fit heavy / medium / light / vision work |
+| **Weak points** | Bad fallback chains, main-model overuse, stale config, or skill bloat |
 
 ---
 
