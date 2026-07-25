@@ -10,12 +10,11 @@ When a user asks to optimize Hermes, the skill should determine the user's real 
 
 Use this order of trust:
 
-1. **Live config**
-   - `~/.hermes/config.yaml`
-   - main `model.provider`
-   - main `model.default`
-   - `auxiliary.*`
-   - fallback configuration
+1. **Active Hermes configuration**
+   - current main provider
+   - current main model
+   - current auxiliary routing
+   - current fallback configuration
 
 2. **Hermes CLI state**
    - `hermes config`

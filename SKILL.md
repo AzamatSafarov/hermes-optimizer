@@ -41,7 +41,7 @@ Do **not** use this skill as a hardcoded provider recipe for every user. Infer t
 
 ## Core Rules
 
-1. **Read live config first.** Start with `~/.hermes/config.yaml`.
+1. **Inspect the active Hermes configuration first.** Start with the current Hermes config exposed in this environment.
 2. **Infer the provider stack.** Determine which provider/model is main and which auxiliary routes already exist.
 3. **Verify models with real calls.** Never trust stale caches, screenshots, or old notes alone.
 4. **Preserve user intent.** If the user wants Azure GPT as main, optimize around that instead of replacing it.
@@ -63,7 +63,7 @@ Before proposing any optimization, determine:
 
 Preferred evidence order:
 
-1. `~/.hermes/config.yaml`
+1. the active Hermes configuration file and current runtime settings
 2. Hermes CLI state (`hermes config`, `hermes fallback list`, related live commands)
 3. real one-shot model tests
 4. user statement, if the environment is inaccessible
