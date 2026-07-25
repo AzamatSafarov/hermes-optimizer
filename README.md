@@ -1,137 +1,222 @@
+<div align="center">
+  <img src="assets/hermes-optimizer-mark.svg" alt="Hermes Optimizer mark" width="96" height="96">
+
 # Hermes Optimizer
 
-A GitHub-ready skill project for **optimizing Hermes Agent** across different provider stacks.
+[![Hermes Skill](https://img.shields.io/badge/Hermes-Skill-7c3aed?style=flat-square)](#)
+[![Status](https://img.shields.io/badge/status-public%20ready-22c55e?style=flat-square)](#)
+[![Mode](https://img.shields.io/badge/routing-provider--agnostic-2563eb?style=flat-square)](#)
+[![Flow](https://img.shields.io/badge/logic-autodiscovery-f59e0b?style=flat-square)](#)
+[![License](https://img.shields.io/badge/license-MIT-e5e7eb?style=flat-square)](LICENSE)
 
-This project is designed to become a **publishable Hermes Ecosystem skill** that helps users reduce spend, lower prompt bloat, improve routing, and apply safer defaults **without assuming one fixed provider or one person's subscription**.
+> *A reusable Hermes skill for discovering the user's stack and cutting wasted spend safely.*
 
-## Core idea
+**Quick Start** • **Features** • **How It Works** • **Install** • **Repository Layout** • **Roadmap**
 
-`hermes-optimizer` must **discover**, not assume.
+</div>
 
-When a user says:
-- "help me optimize Hermes"
-- "help me reduce spend"
-- "what should I move off my main model?"
+---
 
-…the skill should first determine:
-1. which provider(s) the user is actually using,
-2. which model is currently main,
-3. which auxiliary routes already exist,
-4. which fallback chain exists,
-5. which models are really available in that user's live catalog,
-6. which of those models actually work under Hermes.
+## Concept
 
-Only then should it recommend routing changes.
+Most "optimizer" skills are secretly somebody else's preset.
 
-## What the skill does
+**Hermes Optimizer** is built around a stricter idea: **infer first, optimize second**.
+It does not assume one provider, one subscription, one model catalog, or one user's personal stack. Instead it teaches Hermes to:
 
-`hermes-optimizer` helps with:
+1. inspect the active Hermes configuration,
+2. infer the user's current provider profile,
+3. verify real model availability with live checks,
+4. split work into heavy / medium / light / vision lanes,
+5. apply only high-ROI configuration changes.
 
-- auxiliary model routing
-- fallback chain setup
-- loop / runaway spend protection
-- checkpoints and safer defaults
-- skill-bloat reduction
-- provider autodiscovery from live Hermes config
-- per-user optimization based on the user's actual catalog and budget
-
-## Design principle
-
-This skill separates two layers:
-
-1. **Universal optimization logic**
-   - heavy / medium / light / vision lanes
-   - live verification before trusting cached model catalogs
-   - safer defaults for cost control and stability
-   - provider autodiscovery before proposing changes
-
-2. **Provider-profile examples**
-   - concrete mappings for specific stacks
-   - kept in notes/references, not in the core skill body
-
-That separation is the main reason this repo exists.
-
-## Autodiscovery principle
-
-The skill should infer the provider from live Hermes state whenever possible.
-
-Primary signals:
-- `~/.hermes/config.yaml`
-- current `model.provider` and `model.default`
-- configured `auxiliary.*` routes
-- configured fallback chain
-- live model tests through Hermes CLI
-
-This makes the skill usable for:
+That makes it useful for:
 - Azure-first users
 - Ollama Cloud users
-- mixed-stack users
-- users with completely different subscriptions or provider catalogs
+- mixed-provider users
+- people who just say **"optimize my Hermes"** and expect the skill to figure out the rest
 
-## Repository layout
+---
 
-- `SKILL.md` — the publishable skill draft
-- `PUBLISHING.md` — GitHub + Hermes Ecosystem publication workflow
-- `references/imported-skills.md` — upstream skills imported and used as idea sources
-- `references/synthesis-map.md` — explains how the final skill was synthesized
-- `references/provider-autodiscovery.md` — how the skill should infer providers and live catalogs
-- `notes/current-routing.md` — one user-specific routing snapshot, explicitly **not** a global default
+## Features
+
+| Feature | Description |
+|---|---|
+| **Provider autodiscovery** | Reads the live Hermes setup first instead of pushing a hardcoded model preset. |
+| **Lane-based routing** | Separates heavy, medium, light, and vision tasks by cost/capability profile. |
+| **Live verification** | Rejects stale catalog entries, retired models, and broken routes before recommending them. |
+| **Guardrail upgrades** | Pushes high-value defaults like loop hard-stops, checkpoints, and safer approval modes. |
+| **Skill-bloat cleanup** | Helps reduce unnecessary enabled skills and prompt overhead without destructive pruning. |
+| **Provenance-aware design** | Documents which upstream optimization skills informed this one and what was intentionally rejected. |
+| **GitHub-ready distribution** | Can be shared as a public repo, raw `SKILL.md`, or future ecosystem/hub entry. |
+
+---
+
+## How It Works
+
+```text
+User asks to optimize Hermes
+            │
+            ▼
+   Detect active provider stack
+            │
+            ▼
+   Inspect main / fallback / auxiliary
+            │
+            ▼
+    Test real candidate models live
+            │
+            ▼
+ Map candidates into heavy / medium /
+      light / vision task lanes
+            │
+            ▼
+ Apply only safe high-ROI changes
+            │
+            ▼
+  Verify config + runtime behavior
+```
+
+### Heavy lane
+Used for:
+- `compression`
+- `web_extract`
+- `kanban_decomposer`
+- `curator`
+
+### Medium lane
+Used for:
+- `approval`
+- `triage_specifier`
+- `profile_describer`
+
+### Light lane
+Used for:
+- `session_search`
+- `skills_hub`
+- `mcp`
+- `title_generation`
+
+### Vision lane
+Used only when a **verified live multimodal route** exists.
+
+---
+
+## Quick Start
+
+### Install directly from GitHub
+
+```bash
+hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
+```
+
+### Or add the repository as a skill source
+
+```bash
+hermes skills tap add AzamatSafarov/hermes-optimizer
+```
+
+### Then use it in Hermes
+
+```text
+/skill hermes-optimizer
+```
+
+Or just ask:
+
+```text
+Help me optimize Hermes.
+```
+
+---
+
+## What the Skill Optimizes
+
+| Area | Typical improvement |
+|---|---|
+| **Auxiliary routing** | Moves non-critical work off the premium main model when cheaper verified routes exist. |
+| **Fallback chains** | Adds real backup routes so the agent degrades gracefully instead of stalling. |
+| **Guardrails** | Enables loop protection and safer autonomous behavior on cost-sensitive setups. |
+| **Checkpoints** | Makes risky file/config work easier to roll back. |
+| **Skill overhead** | Reduces prompt bloat and accidental irrelevant skill activation. |
+
+---
+
+## Repository Layout
+
+```text
+📁 hermes-optimizer/
+├── 📖 README.md                         ← public project overview
+├── 🧠 SKILL.md                          ← publishable Hermes skill
+├── 📜 LICENSE                           ← MIT license
+├── 🗂️ CHANGELOG.md                      ← release history
+├── 📋 KANBAN.md                         ← publication work board
+├── 🚀 PUBLISHING.md                     ← GitHub + ecosystem publication flow
+├── 🛠️ RELEASE_COMMANDS.md               ← exact push / publish commands
+├── 📁 references/
+│   ├── 📄 imported-skills.md            ← upstream skills used as inputs
+│   ├── 📄 provider-autodiscovery.md     ← autodiscovery design rules
+│   └── 📄 synthesis-map.md              ← why this is a synthesis, not a clone
+└── 📁 notes/
+    └── 📄 current-routing.md            ← one example routing snapshot, not a default
+```
+
+---
 
 ## Provenance
 
-This repo is not a blind clone of one upstream skill.
-It synthesizes ideas from several optimization-focused skills and then filters them through Hermes-specific runtime checks.
+This repository is **not** a blind copy of one upstream skill.
+It is a reviewed synthesis built from several optimization-oriented skills, including work on:
+
+- token budgeting
+- prompt caching
+- cost-aware routing
+- context compression
+- token-efficient tool usage
+- runaway spend protection
 
 See:
-- `references/imported-skills.md`
-- `references/synthesis-map.md`
-- `references/provider-autodiscovery.md`
+- [`references/imported-skills.md`](references/imported-skills.md)
+- [`references/synthesis-map.md`](references/synthesis-map.md)
+- [`references/provider-autodiscovery.md`](references/provider-autodiscovery.md)
 
-## Installed upstream source skills used in synthesis
+---
 
-- `token-budget-guard`
-- `cost-control`
-- `context-compression`
-- `prompt-caching`
-- `token-budget-advisor`
-- `cost-aware-llm-pipeline`
-- `token-optimization`
+## Publish / Share Options
 
-## Publishing goals
-
-### GitHub
-This repo should be understandable on its own:
-- clear scope
-- clear provenance
-- clear autodiscovery story
-- clear distinction between universal logic and user-specific examples
-
-### Hermes Ecosystem
-The final skill should be usable by:
-- Azure-first users
-- Ollama Cloud users
-- mixed-stack users
-- users with different model catalogs and budgets
-- users who only say "optimize Hermes" and expect the skill to infer the rest
-
-## Current publication commands
-
-Hermes exposes the following CLI surfaces relevant to publication:
+### Share with one colleague
 
 ```bash
-hermes skills publish <skill_path>
-hermes skills publish --to github <skill_path>
-hermes skills publish --to clawhub <skill_path>
-hermes skills publish --to github --repo owner/repo <skill_path>
+hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
 ```
 
-And for GitHub-backed discovery sources:
+### Share as a reusable source
 
 ```bash
-hermes skills tap add owner/repo
+hermes skills tap add AzamatSafarov/hermes-optimizer
 ```
 
-## Current state
+### Move toward ecosystem publication
 
-This repo is now GitHub-ready as a public skill project.
-The remaining work is publication and optional further refinement of examples.
+See [`PUBLISHING.md`](PUBLISHING.md).
+
+---
+
+## Roadmap
+
+- [x] Public GitHub repository
+- [x] Provider-agnostic optimization logic
+- [x] Provider autodiscovery design
+- [x] Provenance documentation
+- [x] Shareable raw install flow
+- [ ] Registry / hub listing
+- [ ] Additional provider-profile examples
+- [ ] Installation validation from a clean external machine
+
+---
+
+<div align="center">
+
+**Built by [Azamat Safarov](https://github.com/AzamatSafarov)**
+
+</div>
