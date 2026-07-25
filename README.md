@@ -162,10 +162,10 @@ Used only when a **verified live multimodal route** exists.
 
 ### Detected environment
 ```text
-Main: azure-foundry / gpt-5.4
-Fallback: ollama-cloud / kimi-k2.6
-Aux: all heavy tasks pinned to the premium main model
-Vision: available only on the main provider
+Main: premium provider / premium general model
+Fallback: cheaper secondary provider / stable backup model
+Aux: heavy tasks still pinned to the premium main lane
+Vision: verified only on the main provider
 ```
 
 ### Recommended mapping

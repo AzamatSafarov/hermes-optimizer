@@ -227,4 +227,4 @@ See supporting references for:
 - synthesis map
 - provider autodiscovery guide
 - platform-aware skill trim guide
-- user-specific routing examples
+- provider-profile examples
