@@ -1,0 +1,22 @@
+# Hermes Optimizer
+
+Hermes Optimizer is a provider-agnostic Hermes Agent skill for auditing and improving routing, fallback, guardrails, checkpoints, and skill-layer noise.
+
+## What it does
+- detects the active provider stack
+- verifies real model routes before suggesting changes
+- splits work into heavy / medium / light / vision lanes
+- flags weak fallback chains
+- disables irrelevant skills safely through config
+- prefers reversible high-ROI config changes
+
+## Key files
+- README.md
+- SKILL.md
+- references/provider-autodiscovery.md
+- references/platform-skill-trim.md
+- notes/current-routing.md
+
+## Install
+- `hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y`
+- `hermes skills tap add AzamatSafarov/hermes-optimizer`

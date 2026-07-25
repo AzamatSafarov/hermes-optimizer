@@ -1,0 +1,36 @@
+# Hermes Optimizer — LLM reference
+
+Hermes Optimizer is a reusable Hermes Agent skill designed to optimize a user's Hermes setup without hardcoding one provider stack.
+
+## Core principle
+Infer first, optimize second.
+
+The skill should inspect live configuration and route availability before making changes.
+
+## Main capabilities
+- provider autodiscovery
+- live route verification
+- lane-based auxiliary routing
+- fallback-chain review
+- platform-aware skill cleanup
+- guardrail and checkpoint improvements
+- config hygiene review
+
+## Expected output shape
+1. detected environment
+2. recommended lane mapping
+3. weak points or blockers
+4. verification notes
+
+## Safety rules
+- do not present one user's model stack as a public default
+- prefer disabling irrelevant skills over deleting bundled skills
+- verify routes with real calls when possible
+- keep examples generic in public documentation
+
+## Important references
+- `SKILL.md`
+- `README.md`
+- `references/provider-autodiscovery.md`
+- `references/platform-skill-trim.md`
+- `notes/current-routing.md`

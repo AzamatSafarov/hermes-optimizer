@@ -1,12 +1,14 @@
 <div align="center">
 
+<img src="assets/hermes-optimizer-mark.svg" alt="Hermes Optimizer mark" width="92">
+
 # ⚙️ Hermes Optimizer
 
-![Hermes](https://img.shields.io/badge/Hermes-Skill-7c3aed?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Public_Ready-22c55e?style=for-the-badge)
-![Autodiscovery](https://img.shields.io/badge/Autodiscovery-Live_First-f59e0b?style=for-the-badge)
+![Hermes](https://img.shields.io/badge/Hermes-Agent-111827?style=for-the-badge&logo=sparkfun&logoColor=white)
+![Optimizer](https://img.shields.io/badge/Optimizer-Provider_Agnostic-7c3aed?style=for-the-badge)
 ![Routing](https://img.shields.io/badge/Routing-Lane_Based-2563eb?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-e5e7eb?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Public_Ready-22c55e?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)
 
 ![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
 ![YAML](https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
@@ -14,38 +16,43 @@
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Shields.io](https://img.shields.io/badge/Shields.io-000000?style=for-the-badge&logo=shieldsdotio&logoColor=white)
 
-**Provider-agnostic Hermes Agent optimization skill with autodiscovery, skill cleanup, and safer routing defaults.**
+**A reusable Hermes skill for cost-aware routing, safer defaults, skill cleanup, and live provider autodiscovery.**
 
-[Quick Start](#-quick-start) • [Features](#-features) • [Workflow](#-workflow) • [Structure](#-project-structure) • [Roadmap](#-roadmap)
+<a href="#-quick-start">Quick Start</a> · <a href="#-features">Features</a> · <a href="#-skill-package">Skill Package</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-workflow">Workflow</a> · <a href="#-roadmap">Roadmap</a>
 
 <img src="assets/hermes-optimizer-hero.svg" alt="Hermes Optimizer hero banner" width="100%">
 
 </div>
 
-> Hermes Optimizer does **not** assume your provider, your subscription, or your model catalog. It inspects the active Hermes setup first, verifies real routes, and only then proposes cost and routing changes.
+> Hermes Optimizer does **not** assume your provider, your subscription, or your model catalog. It inspects the active Hermes setup, verifies live routes, and only then recommends changes.
+
+> [!NOTE]
+> Public examples in this repository are intentionally generic. The skill is designed to adapt to each user's real provider stack instead of pushing one person's model choices as a default.
 
 ---
 
 ## 💡 Concept
 
-Most "optimizer" skills are just somebody else's preset with new branding.
+Most “optimizer” skills are just somebody else’s preset with new branding.
 
 **Hermes Optimizer** is built around a stricter rule: **infer first, optimize second**.
 
 It teaches Hermes to:
 
 1. inspect the active configuration,
-2. infer the user's provider profile,
-3. verify real candidate models with live checks,
-4. separate work into **heavy / medium / light / vision** lanes,
+2. infer the current provider profile,
+3. verify candidate models with real calls,
+4. split work into **heavy / medium / light / vision** lanes,
 5. trim irrelevant skills safely,
-6. apply only high-ROI changes.
+6. apply only high-ROI changes,
+7. verify the result before declaring success.
 
 That makes it useful for:
 - Azure-first users
 - Ollama Cloud users
 - mixed-provider users
-- anyone who says **"optimize my Hermes"** and expects the agent to figure out the rest
+- people with messy legacy configs
+- anyone who says **“optimize my Hermes”** and expects the agent to figure it out
 
 ---
 
@@ -59,8 +66,8 @@ That makes it useful for:
 | **Guardrail upgrades** | Pushes high-value defaults like hard stops, checkpoints, and safer approval modes. |
 | **Platform-aware skill trim** | Targets irrelevant platform-specific skills, such as Apple/macOS-only defaults on Windows. |
 | **Skill-bloat cleanup** | Disables noise safely instead of deleting bundled skills destructively. |
-| **Provenance-aware design** | Documents which upstream optimization ideas informed the final skill. |
-| **GitHub-ready distribution** | Can be shared as a public repo, raw `SKILL.md`, or future ecosystem/hub entry. |
+| **Fallback review** | Flags fake fallback chains that point back to the same weak path. |
+| **GitHub-ready packaging** | Ships as a public repo, raw `SKILL.md`, and reusable reference pack. |
 
 ---
 
@@ -85,7 +92,7 @@ Help me optimize Hermes.
 ```
 
 <details>
-<summary>Advanced install / sharing modes</summary>
+<summary>⚙️ Advanced install and sharing modes</summary>
 
 ### Add the repository as a skill source
 
@@ -99,11 +106,26 @@ hermes skills tap add AzamatSafarov/hermes-optimizer
 hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
 ```
 
-### Move toward ecosystem publication
+### Publication handoff
 
-See [`PUBLISHING.md`](PUBLISHING.md).
+See [`PUBLISHING.md`](PUBLISHING.md) and [`RELEASE_COMMANDS.md`](RELEASE_COMMANDS.md).
 
 </details>
+
+---
+
+## 🧩 Skill Package
+
+| File | Purpose |
+|------|---------|
+| `SKILL.md` | Runtime Hermes skill with the optimization workflow and decision rules. |
+| `references/provider-autodiscovery.md` | Rules for detecting the real provider stack before changing anything. |
+| `references/platform-skill-trim.md` | Platform-aware disable guidance for irrelevant built-in skills. |
+| `notes/current-routing.md` | Generic provider-profile examples rather than personal defaults. |
+| `assets/hermes-optimizer-hero.svg` | README hero banner for GitHub presentation. |
+| `assets/architecture-flow.svg` | Visual workflow diagram for the optimization flow. |
+| `.github/workflows/repo-readme-quality.yml` | Automated README and link checks on push. |
+| `llms.txt` / `llms-full.txt` | Machine-readable project summary for LLM-assisted discovery. |
 
 ---
 
@@ -111,11 +133,57 @@ See [`PUBLISHING.md`](PUBLISHING.md).
 
 | Signal | Value |
 |--------|-------|
-| **Primary purpose** | Reduce Hermes spend and routing mistakes without blindly hardcoding one stack |
+| **Primary purpose** | Reduce Hermes spend and routing mistakes without hardcoding one stack |
 | **Best for** | Users with Azure, Ollama Cloud, mixed-provider, or evolving model catalogs |
 | **Core mechanism** | Provider autodiscovery → live verification → lane-based routing |
-| **Skill cleanup rule** | Prefer `skills.disabled` updates over deleting bundled files |
-| **Output** | Safer config recommendations, better auxiliary routing, lower prompt waste |
+| **Cleanup rule** | Prefer `skills.disabled` over deleting bundled files |
+| **Main promise** | Safer recommendations backed by live checks |
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Agent runtime | Hermes Agent |
+| Skill format | Markdown + YAML frontmatter |
+| Reference docs | Markdown |
+| Visual assets | SVG + PNG |
+| Distribution | GitHub raw install + skill tap |
+| Quality gate | GitHub Actions README/link checks |
+
+<details>
+<summary>📁 Project Structure</summary>
+
+```text
+hermes-optimizer/
+├── README.md
+├── SKILL.md
+├── LICENSE
+├── CHANGELOG.md
+├── KANBAN.md
+├── PUBLISHING.md
+├── RELEASE_COMMANDS.md
+├── llms.txt
+├── llms-full.txt
+├── .github/
+│   └── workflows/
+│       └── repo-readme-quality.yml
+├── assets/
+│   ├── hermes-optimizer-mark.svg
+│   ├── hermes-optimizer-hero.svg
+│   ├── architecture-flow.svg
+│   └── social-preview.png
+├── references/
+│   ├── provider-autodiscovery.md
+│   ├── platform-skill-trim.md
+│   ├── imported-skills.md
+│   └── synthesis-map.md
+└── notes/
+    └── current-routing.md
+```
+
+</details>
 
 ---
 
@@ -140,6 +208,9 @@ User asks to optimize Hermes
       light / vision task lanes
             │
             ▼
+ Trim irrelevant skills by platform
+            │
+            ▼
  Apply only safe high-ROI changes
             │
             ▼
@@ -157,16 +228,17 @@ User asks to optimize Hermes
 
 ---
 
-## 📊 What Improves
+## 📊 What It Upgrades
 
 | Area | Typical improvement |
 |------|---------------------|
 | **Auxiliary routing** | Moves non-critical work off the premium main model when cheaper verified routes exist. |
-| **Fallback chains** | Adds real backup routes so the agent degrades gracefully instead of stalling. |
+| **Fallback chains** | Exposes fake fallback paths and pushes for genuinely separate backup routes. |
 | **Guardrails** | Enables loop protection and safer autonomous behavior on cost-sensitive setups. |
 | **Checkpoints** | Makes risky file/config work easier to roll back. |
 | **Skill overhead** | Reduces prompt bloat and accidental irrelevant skill activation. |
 | **Platform mismatch** | Disables obviously irrelevant skills like Apple/macOS defaults on Windows. |
+| **Config hygiene** | Surfaces version drift and deprecated keys before they become breakage. |
 
 ---
 
@@ -196,51 +268,12 @@ Vision lane  → keep on the verified multimodal provider
 
 ---
 
-## 🏗️ Project Structure
+## 🛡️ Quality Checks Included
 
-```text
-📁 hermes-optimizer/
-├── 📖 README.md                         ← public project overview
-├── 🧠 SKILL.md                          ← publishable Hermes skill
-├── 📜 LICENSE                           ← MIT license
-├── 🗂️ CHANGELOG.md                      ← release history
-├── 📋 KANBAN.md                         ← publication work board
-├── 🚀 PUBLISHING.md                     ← GitHub + ecosystem publication flow
-├── 🛠️ RELEASE_COMMANDS.md               ← exact push / publish commands
-├── 🎨 assets/
-│   ├── 🖼️ hermes-optimizer-mark.svg     ← repo icon mark
-│   ├── 🖼️ hermes-optimizer-hero.svg     ← hero banner
-│   ├── 🖼️ architecture-flow.svg         ← workflow diagram
-│   └── 🖼️ social-preview.png            ← shareable preview image
-├── 📁 references/
-│   ├── 📄 imported-skills.md            ← upstream skills used as inputs
-│   ├── 📄 provider-autodiscovery.md     ← autodiscovery design rules
-│   ├── 📄 platform-skill-trim.md        ← safe default disable candidates by platform
-│   └── 📄 synthesis-map.md              ← why this is a synthesis, not a clone
-└── 📁 notes/
-    └── 📄 current-routing.md            ← generic provider-profile examples
-```
-
----
-
-## 🔗 Sources and Attribution
-
-This repository is **not** a blind copy of one upstream skill.
-It is a reviewed synthesis built from several optimization-oriented ideas, including work on:
-
-- token budgeting
-- prompt caching
-- cost-aware routing
-- context compression
-- token-efficient tool usage
-- runaway spend protection
-- platform-aware skill cleanup
-
-Useful references:
-- [`references/imported-skills.md`](references/imported-skills.md)
-- [`references/synthesis-map.md`](references/synthesis-map.md)
-- [`references/provider-autodiscovery.md`](references/provider-autodiscovery.md)
-- [`references/platform-skill-trim.md`](references/platform-skill-trim.md)
+- README/link lint workflow on push
+- generic public examples instead of personal stack defaults
+- structured visual assets for GitHub rendering
+- reusable machine-readable project summary for LLM tools
 
 ---
 
@@ -250,8 +283,9 @@ Useful references:
 - [x] Provider-agnostic optimization logic
 - [x] Provider autodiscovery design
 - [x] Platform-aware skill trim rules
-- [x] Provenance documentation
-- [x] Shareable raw install flow
+- [x] README hero + architecture visuals
+- [x] LLM discovery files
+- [x] README quality workflow
 - [ ] Registry / hub listing
 - [ ] Additional provider-profile examples
 - [ ] Installation validation from a clean external machine
@@ -263,10 +297,10 @@ Useful references:
 Fork → branch → improve docs / references / workflow → PR.
 
 Good contribution areas:
-- new provider-profile examples
+- clearer provider-profile examples
 - safer skill-trim heuristics
-- clearer verification recipes
-- ecosystem publication improvements
+- better fallback verification recipes
+- more validation coverage for public installation flows
 
 ---
 
