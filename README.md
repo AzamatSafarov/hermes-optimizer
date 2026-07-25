@@ -93,6 +93,10 @@ Help me optimize Hermes.
 
 ## Optimization Workflow
 
+<div align="center">
+  <img src="assets/architecture-flow.svg" alt="Hermes Optimizer architecture flow" width="100%">
+</div>
+
 ```text
 User asks to optimize Hermes
             │
@@ -153,6 +157,32 @@ Used only when a **verified live multimodal route** exists.
 
 ---
 
+## Example Optimization Output
+
+### Detected environment
+```text
+Main: azure-foundry / gpt-5.4
+Fallback: ollama-cloud / kimi-k2.6
+Aux: all heavy tasks pinned to the premium main model
+Vision: available only on the main provider
+```
+
+### Recommended mapping
+```text
+Heavy lane   → strongest verified long-context budget model
+Medium lane  → fast low-cost reasoning/classifier model
+Light lane   → cheapest stable text model with enough context
+Vision lane  → keep on the verified multimodal provider
+```
+
+### Why this is better
+- premium main model stays reserved for the work that truly needs it
+- internal routing/search moves to cheaper lanes
+- broken or retired model candidates are filtered before config changes
+- the user gets a provider-specific recommendation without a hardcoded preset
+
+---
+
 ## Project Structure
 
 ```text
@@ -166,7 +196,9 @@ Used only when a **verified live multimodal route** exists.
 ├── 🛠️ RELEASE_COMMANDS.md               ← exact push / publish commands
 ├── 🎨 assets/
 │   ├── 🖼️ hermes-optimizer-mark.svg     ← repo icon mark
-│   └── 🖼️ hermes-optimizer-hero.svg     ← hero banner
+│   ├── 🖼️ hermes-optimizer-hero.svg     ← hero banner
+│   ├── 🖼️ architecture-flow.svg         ← workflow diagram
+│   └── 🖼️ social-preview.png            ← shareable preview image
 ├── 📁 references/
 │   ├── 📄 imported-skills.md            ← upstream skills used as inputs
 │   ├── 📄 provider-autodiscovery.md     ← autodiscovery design rules
@@ -213,6 +245,9 @@ hermes skills tap add AzamatSafarov/hermes-optimizer
 Move toward ecosystem publication:
 
 See [`PUBLISHING.md`](PUBLISHING.md).
+
+> **Note**
+> A ready-to-upload social preview image is included at `assets/social-preview.png` for manual use in GitHub repository settings.
 
 ---
 

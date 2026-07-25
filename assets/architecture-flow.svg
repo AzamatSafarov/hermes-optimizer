@@ -1,0 +1,36 @@
+<svg width="1200" height="460" viewBox="0 0 1200 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="460" rx="28" fill="#0D1117"/>
+  <rect x="24" y="24" width="1152" height="412" rx="20" fill="#111827" stroke="#273244" stroke-width="3"/>
+  <text x="66" y="82" fill="#F8FAFC" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="34" font-weight="700">Hermes Optimizer Architecture</text>
+  <text x="66" y="116" fill="#94A3B8" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20">Detect the active stack, test candidates live, then route by task lane.</text>
+
+  <rect x="70" y="170" width="210" height="110" rx="22" fill="#0F172A" stroke="#334155" stroke-width="3"/>
+  <text x="96" y="212" fill="#C4B5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="26" font-weight="700">1. Detect stack</text>
+  <text x="96" y="246" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Main provider</text>
+  <text x="96" y="270" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Fallbacks</text>
+
+  <rect x="345" y="170" width="210" height="110" rx="22" fill="#0F172A" stroke="#334155" stroke-width="3"/>
+  <text x="372" y="212" fill="#93C5FD" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="26" font-weight="700">2. Inspect lanes</text>
+  <text x="372" y="246" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Auxiliary block</text>
+  <text x="372" y="270" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Skill overhead</text>
+
+  <rect x="620" y="170" width="210" height="110" rx="22" fill="#0F172A" stroke="#334155" stroke-width="3"/>
+  <text x="646" y="212" fill="#86EFAC" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="26" font-weight="700">3. Test live</text>
+  <text x="646" y="246" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Smoke tests</text>
+  <text x="646" y="270" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Reject stale routes</text>
+
+  <rect x="895" y="170" width="210" height="110" rx="22" fill="#0F172A" stroke="#334155" stroke-width="3"/>
+  <text x="922" y="212" fill="#FDE68A" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="26" font-weight="700">4. Apply safely</text>
+  <text x="922" y="246" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Routing + guardrails</text>
+  <text x="922" y="270" fill="#CBD5E1" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="18">Post-change verify</text>
+
+  <path d="M281 225H344" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+  <path d="M334 215L350 225L334 235" stroke="#475569" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M556 225H619" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+  <path d="M609 215L625 225L609 235" stroke="#475569" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M831 225H894" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+  <path d="M884 215L900 225L884 235" stroke="#475569" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="156" y="332" width="888" height="62" rx="18" fill="#111827" stroke="#273244" stroke-width="2"/>
+  <text x="195" y="372" fill="#E5E7EB" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="22">Heavy lane: compression / web_extract / curator  •  Medium lane: approval / triage  •  Light lane: session_search / skills_hub / mcp  •  Vision: only verified multimodal routes</text>
+</svg>
