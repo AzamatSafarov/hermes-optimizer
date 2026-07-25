@@ -11,7 +11,7 @@
 
 > *A reusable Hermes skill for discovering the user's stack and cutting wasted spend safely.*
 
-**Quick Start** • **Features** • **How It Works** • **Install** • **Repository Layout** • **Roadmap**
+[Quick Start](#quick-start) • [Features](#features) • [How It Works](#how-it-works) • [Install](#quick-start) • [Repository Layout](#repository-layout) • [Roadmap](#roadmap)
 
 </div>
 
