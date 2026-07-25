@@ -85,6 +85,7 @@ Help me optimize Hermes.
 | **Lane-based routing** | Separates heavy, medium, light, and vision tasks by cost/capability profile. |
 | **Live verification** | Rejects stale catalog entries, retired models, and broken routes before recommending them. |
 | **Guardrail upgrades** | Pushes high-value defaults like loop hard-stops, checkpoints, and safer approval modes. |
+| **Platform-aware skill trim** | Auto-targets irrelevant platform-specific skills like Apple/macOS-only defaults on Windows. |
 | **Skill-bloat cleanup** | Helps reduce unnecessary enabled skills and prompt overhead without destructive pruning. |
 | **Provenance-aware design** | Documents which upstream optimization skills informed this one and what was intentionally rejected. |
 | **GitHub-ready distribution** | Can be shared as a public repo, raw `SKILL.md`, or future ecosystem/hub entry. |
@@ -202,6 +203,7 @@ Vision lane  → keep on the verified multimodal provider
 ├── 📁 references/
 │   ├── 📄 imported-skills.md            ← upstream skills used as inputs
 │   ├── 📄 provider-autodiscovery.md     ← autodiscovery design rules
+│   ├── 📄 platform-skill-trim.md        ← safe default disable candidates by platform
 │   └── 📄 synthesis-map.md              ← why this is a synthesis, not a clone
 └── 📁 notes/
     └── 📄 current-routing.md            ← one example routing snapshot, not a default
@@ -225,6 +227,7 @@ See:
 - [`references/imported-skills.md`](references/imported-skills.md)
 - [`references/synthesis-map.md`](references/synthesis-map.md)
 - [`references/provider-autodiscovery.md`](references/provider-autodiscovery.md)
+- [`references/platform-skill-trim.md`](references/platform-skill-trim.md)
 
 ---
 

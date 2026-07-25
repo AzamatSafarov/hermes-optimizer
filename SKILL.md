@@ -163,6 +163,17 @@ Typical wins:
 - disable obviously irrelevant skills
 - enable curator consolidation where appropriate
 
+### Step 5b — Trim irrelevant skills by platform
+Use platform-aware skill cleanup as part of Hermes optimization.
+
+Rules:
+- prefer updating `skills.disabled` over deleting skill files
+- on Windows, auto-disable Apple/macOS-only skills unless the user explicitly needs them
+- also disable clearly irrelevant leisure / smart-home / narrow specialist integrations when they are not part of the user's workflow
+- if imported source-skills were installed only to build a stronger umbrella skill, disable them after synthesis so they stop inflating prompt overhead
+
+See supporting references for concrete Windows-safe default candidates.
+
 ### Step 6 — Verify after changes
 After editing:
 1. re-read `config.yaml`
@@ -177,7 +188,9 @@ Too many enabled skills can increase prompt overhead and increase the chance of 
 
 Safe cleanup pattern:
 - disable obviously irrelevant platform-specific skills
+- on Windows, treat Apple/macOS-only skills as default disable candidates
 - disable unused gaming / server / red-team skills unless the user wants them
+- disable imported source-skills once their logic has been absorbed into a stronger umbrella skill
 - keep a provenance note so the cleanup is reversible
 - prefer disabling over deleting
 
@@ -213,4 +226,5 @@ See supporting references for:
 - imported upstream skills
 - synthesis map
 - provider autodiscovery guide
+- platform-aware skill trim guide
 - user-specific routing examples
