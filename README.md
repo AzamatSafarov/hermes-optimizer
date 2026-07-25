@@ -1,55 +1,64 @@
 <div align="center">
-  <img src="assets/hermes-optimizer-hero.svg" alt="Hermes Optimizer hero banner" width="100%">
 
-# Hermes Optimizer
+# ⚙️ Hermes Optimizer
 
-[![Hermes Skill](https://img.shields.io/badge/Hermes-Skill-7c3aed?style=flat-square)](#)
-[![Status](https://img.shields.io/badge/status-public%20ready-22c55e?style=flat-square)](#)
-[![Autodiscovery](https://img.shields.io/badge/autodiscovery-live%20first-f59e0b?style=flat-square)](#)
-[![Routing](https://img.shields.io/badge/routing-heavy%20%7C%20medium%20%7C%20light-2563eb?style=flat-square)](#)
-[![License](https://img.shields.io/badge/license-MIT-e5e7eb?style=flat-square)](LICENSE)
+![Hermes](https://img.shields.io/badge/Hermes-Skill-7c3aed?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Public_Ready-22c55e?style=for-the-badge)
+![Autodiscovery](https://img.shields.io/badge/Autodiscovery-Live_First-f59e0b?style=for-the-badge)
+![Routing](https://img.shields.io/badge/Routing-Lane_Based-2563eb?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-e5e7eb?style=for-the-badge)
 
-> *A reusable Hermes skill for discovering the user's stack and cutting wasted spend safely.*
+**Provider-agnostic Hermes Agent optimization skill with autodiscovery, skill cleanup, and safer routing defaults.**
 
-[Quick Start](#quick-start) • [Why Hermes Optimizer](#why-hermes-optimizer) • [Feature Highlights](#feature-highlights) • [Optimization Workflow](#optimization-workflow) • [Project Structure](#project-structure) • [Roadmap](#roadmap)
+[Quick Start](#-quick-start) • [Features](#-features) • [Workflow](#-workflow) • [Structure](#-project-structure) • [Roadmap](#-roadmap)
+
+<img src="assets/hermes-optimizer-hero.svg" alt="Hermes Optimizer hero banner" width="100%">
 
 </div>
 
+> Hermes Optimizer does **not** assume your provider, your subscription, or your model catalog. It inspects the active Hermes setup first, verifies real routes, and only then proposes cost and routing changes.
+
 ---
 
-## Why Hermes Optimizer
+## 💡 Concept
 
-Most "optimizer" skills are secretly somebody else's preset.
+Most "optimizer" skills are just somebody else's preset with new branding.
 
-**Hermes Optimizer** is built around a stricter rule: **infer first, optimize second**. Instead of assuming one provider, one subscription, one model catalog, or one personal setup, it teaches Hermes to:
+**Hermes Optimizer** is built around a stricter rule: **infer first, optimize second**.
 
-1. inspect the active Hermes configuration,
-2. infer the user's current provider profile,
-3. verify real model availability with live checks,
-4. split work into heavy / medium / light / vision lanes,
-5. apply only safe high-ROI configuration changes.
+It teaches Hermes to:
+
+1. inspect the active configuration,
+2. infer the user's provider profile,
+3. verify real candidate models with live checks,
+4. separate work into **heavy / medium / light / vision** lanes,
+5. trim irrelevant skills safely,
+6. apply only high-ROI changes.
 
 That makes it useful for:
 - Azure-first users
 - Ollama Cloud users
 - mixed-provider users
-- people who just say **"optimize my Hermes"** and expect the skill to figure out the rest
+- anyone who says **"optimize my Hermes"** and expects the agent to figure out the rest
 
 ---
 
-## At a Glance
+## ✨ Features
 
-| Signal | Value |
-|---|---|
-| **Primary purpose** | Reduce Hermes spend and routing mistakes without blindly hardcoding one stack |
-| **Best for** | Users with Azure, Ollama Cloud, mixed-provider, or evolving model catalogs |
-| **Core mechanism** | Provider autodiscovery → live verification → lane-based routing |
-| **Output** | Safer config recommendations, better auxiliary routing, lower prompt waste |
-| **Distribution** | Public GitHub repo, raw `SKILL.md`, future ecosystem/hub listing |
+| Feature | Description |
+|---------|-------------|
+| **Provider autodiscovery** | Reads the live Hermes setup first instead of pushing a hardcoded model preset. |
+| **Lane-based routing** | Separates heavy, medium, light, and vision tasks by cost/capability profile. |
+| **Live verification** | Rejects stale catalog entries, retired models, and broken routes before recommending them. |
+| **Guardrail upgrades** | Pushes high-value defaults like hard stops, checkpoints, and safer approval modes. |
+| **Platform-aware skill trim** | Targets irrelevant platform-specific skills, such as Apple/macOS-only defaults on Windows. |
+| **Skill-bloat cleanup** | Disables noise safely instead of deleting bundled skills destructively. |
+| **Provenance-aware design** | Documents which upstream optimization ideas informed the final skill. |
+| **GitHub-ready distribution** | Can be shared as a public repo, raw `SKILL.md`, or future ecosystem/hub entry. |
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 Install directly from GitHub:
 
@@ -57,13 +66,7 @@ Install directly from GitHub:
 hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
 ```
 
-Or add the repository as a reusable skill source:
-
-```bash
-hermes skills tap add AzamatSafarov/hermes-optimizer
-```
-
-Then load it in Hermes:
+Load it in Hermes:
 
 ```text
 /skill hermes-optimizer
@@ -75,28 +78,44 @@ Or simply ask:
 Help me optimize Hermes.
 ```
 
+<details>
+<summary>Advanced install / sharing modes</summary>
+
+### Add the repository as a skill source
+
+```bash
+hermes skills tap add AzamatSafarov/hermes-optimizer
+```
+
+### Share with a colleague
+
+```bash
+hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
+```
+
+### Move toward ecosystem publication
+
+See [`PUBLISHING.md`](PUBLISHING.md).
+
+</details>
+
 ---
 
-## Feature Highlights
+## 🧠 At a Glance
 
-| Feature | Description |
-|---|---|
-| **Provider autodiscovery** | Reads the live Hermes setup first instead of pushing a hardcoded model preset. |
-| **Lane-based routing** | Separates heavy, medium, light, and vision tasks by cost/capability profile. |
-| **Live verification** | Rejects stale catalog entries, retired models, and broken routes before recommending them. |
-| **Guardrail upgrades** | Pushes high-value defaults like loop hard-stops, checkpoints, and safer approval modes. |
-| **Platform-aware skill trim** | Auto-targets irrelevant platform-specific skills like Apple/macOS-only defaults on Windows. |
-| **Skill-bloat cleanup** | Helps reduce unnecessary enabled skills and prompt overhead without destructive pruning. |
-| **Provenance-aware design** | Documents which upstream optimization skills informed this one and what was intentionally rejected. |
-| **GitHub-ready distribution** | Can be shared as a public repo, raw `SKILL.md`, or future ecosystem/hub entry. |
+| Signal | Value |
+|--------|-------|
+| **Primary purpose** | Reduce Hermes spend and routing mistakes without blindly hardcoding one stack |
+| **Best for** | Users with Azure, Ollama Cloud, mixed-provider, or evolving model catalogs |
+| **Core mechanism** | Provider autodiscovery → live verification → lane-based routing |
+| **Skill cleanup rule** | Prefer `skills.disabled` updates over deleting bundled files |
+| **Output** | Safer config recommendations, better auxiliary routing, lower prompt waste |
 
 ---
 
-## Optimization Workflow
+## 🧭 Workflow
 
-<div align="center">
-  <img src="assets/architecture-flow.svg" alt="Hermes Optimizer architecture flow" width="100%">
-</div>
+<img src="assets/architecture-flow.svg" alt="Hermes Optimizer architecture flow" width="100%">
 
 ```text
 User asks to optimize Hermes
@@ -121,44 +140,31 @@ User asks to optimize Hermes
   Verify config + runtime behavior
 ```
 
-### Heavy lane
-Used for:
-- `compression`
-- `web_extract`
-- `kanban_decomposer`
-- `curator`
+### Lane model
 
-### Medium lane
-Used for:
-- `approval`
-- `triage_specifier`
-- `profile_describer`
-
-### Light lane
-Used for:
-- `session_search`
-- `skills_hub`
-- `mcp`
-- `title_generation`
-
-### Vision lane
-Used only when a **verified live multimodal route** exists.
+| Lane | Typical tasks |
+|------|---------------|
+| **Heavy** | `compression`, `web_extract`, `kanban_decomposer`, `curator` |
+| **Medium** | `approval`, `triage_specifier`, `profile_describer` |
+| **Light** | `session_search`, `skills_hub`, `mcp`, `title_generation` |
+| **Vision** | Only when a verified live multimodal route exists |
 
 ---
 
-## What Improves
+## 📊 What Improves
 
 | Area | Typical improvement |
-|---|---|
+|------|---------------------|
 | **Auxiliary routing** | Moves non-critical work off the premium main model when cheaper verified routes exist. |
 | **Fallback chains** | Adds real backup routes so the agent degrades gracefully instead of stalling. |
 | **Guardrails** | Enables loop protection and safer autonomous behavior on cost-sensitive setups. |
 | **Checkpoints** | Makes risky file/config work easier to roll back. |
 | **Skill overhead** | Reduces prompt bloat and accidental irrelevant skill activation. |
+| **Platform mismatch** | Disables obviously irrelevant skills like Apple/macOS defaults on Windows. |
 
 ---
 
-## Example Optimization Output
+## 🧪 Example Output Shape
 
 ### Detected environment
 ```text
@@ -177,14 +183,14 @@ Vision lane  → keep on the verified multimodal provider
 ```
 
 ### Why this is better
-- premium main model stays reserved for the work that truly needs it
+- premium main capacity stays reserved for the work that truly needs it
 - internal routing/search moves to cheaper lanes
-- broken or retired model candidates are filtered before config changes
-- the user gets a provider-specific recommendation without a hardcoded preset
+- broken or retired candidates are filtered before config changes
+- users get provider-specific recommendations without a hardcoded preset
 
 ---
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```text
 📁 hermes-optimizer/
@@ -206,15 +212,15 @@ Vision lane  → keep on the verified multimodal provider
 │   ├── 📄 platform-skill-trim.md        ← safe default disable candidates by platform
 │   └── 📄 synthesis-map.md              ← why this is a synthesis, not a clone
 └── 📁 notes/
-    └── 📄 current-routing.md            ← one example routing snapshot, not a default
+    └── 📄 current-routing.md            ← generic provider-profile examples
 ```
 
 ---
 
-## Sources and Attribution
+## 🔗 Sources and Attribution
 
 This repository is **not** a blind copy of one upstream skill.
-It is a reviewed synthesis built from several optimization-oriented skill ideas, including work on:
+It is a reviewed synthesis built from several optimization-oriented ideas, including work on:
 
 - token budgeting
 - prompt caching
@@ -222,8 +228,9 @@ It is a reviewed synthesis built from several optimization-oriented skill ideas,
 - context compression
 - token-efficient tool usage
 - runaway spend protection
+- platform-aware skill cleanup
 
-See:
+Useful references:
 - [`references/imported-skills.md`](references/imported-skills.md)
 - [`references/synthesis-map.md`](references/synthesis-map.md)
 - [`references/provider-autodiscovery.md`](references/provider-autodiscovery.md)
@@ -231,39 +238,35 @@ See:
 
 ---
 
-## Reuse and Distribution
-
-Share with one colleague:
-
-```bash
-hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
-```
-
-Share as a reusable source:
-
-```bash
-hermes skills tap add AzamatSafarov/hermes-optimizer
-```
-
-Move toward ecosystem publication:
-
-See [`PUBLISHING.md`](PUBLISHING.md).
-
-> **Note**
-> A ready-to-upload social preview image is included at `assets/social-preview.png` for manual use in GitHub repository settings.
-
----
-
-## Roadmap
+## 🗺️ Roadmap
 
 - [x] Public GitHub repository
 - [x] Provider-agnostic optimization logic
 - [x] Provider autodiscovery design
+- [x] Platform-aware skill trim rules
 - [x] Provenance documentation
 - [x] Shareable raw install flow
 - [ ] Registry / hub listing
 - [ ] Additional provider-profile examples
 - [ ] Installation validation from a clean external machine
+
+---
+
+## 🤝 Contributing
+
+Fork → branch → improve docs / references / workflow → PR.
+
+Good contribution areas:
+- new provider-profile examples
+- safer skill-trim heuristics
+- clearer verification recipes
+- ecosystem publication improvements
+
+---
+
+## 📄 License
+
+MIT. See [LICENSE](LICENSE).
 
 ---
 
