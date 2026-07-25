@@ -2,6 +2,8 @@
 
 Hermes Optimizer is a provider-agnostic Hermes Agent skill for auditing and improving routing, fallback, guardrails, checkpoints, and skill-layer noise.
 
+It should autodetect configured providers, subscriptions, and reachable models whenever the environment can be inspected.
+
 ## What it does
 - detects the active provider stack
 - verifies real model routes before suggesting changes

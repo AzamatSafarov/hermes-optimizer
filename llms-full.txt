@@ -2,6 +2,8 @@
 
 Hermes Optimizer is a reusable Hermes Agent skill designed to optimize a user's Hermes setup without hardcoding one provider stack.
 
+It should automatically detect configured providers, authenticated subscriptions, and reachable model routes before asking the user to enumerate available models.
+
 ## Core principle
 Infer first, optimize second.
 
@@ -9,6 +11,7 @@ The skill should inspect live configuration and route availability before making
 
 ## Main capabilities
 - provider autodiscovery
+- automatic model inventory from live subscriptions / credentials
 - live route verification
 - lane-based auxiliary routing
 - fallback-chain review
@@ -25,6 +28,7 @@ The skill should inspect live configuration and route availability before making
 ## Safety rules
 - do not present one user's model stack as a public default
 - prefer disabling irrelevant skills over deleting bundled skills
+- detect providers and reachable models from live state before asking the user to list anything
 - verify routes with real calls when possible
 - keep examples generic in public documentation
 

@@ -16,7 +16,7 @@
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Shields.io](https://img.shields.io/badge/Shields.io-000000?style=for-the-badge&logo=shieldsdotio&logoColor=white)
 
-**A reusable Hermes skill for cost-aware routing, safer defaults, skill cleanup, and live provider autodiscovery.**
+**A reusable Hermes skill for cost-aware routing, safer defaults, automatic model discovery, skill cleanup, and live provider autodiscovery.**
 
 <a href="#-quick-start">Quick Start</a> · <a href="#-features">Features</a> · <a href="#-skill-package">Skill Package</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-workflow">Workflow</a> · <a href="#-roadmap">Roadmap</a>
 
@@ -40,12 +40,13 @@ Most “optimizer” skills are just somebody else’s preset with new branding.
 It teaches Hermes to:
 
 1. inspect the active configuration,
-2. infer the current provider profile,
-3. verify candidate models with real calls,
-4. split work into **heavy / medium / light / vision** lanes,
-5. trim irrelevant skills safely,
-6. apply only high-ROI changes,
-7. verify the result before declaring success.
+2. detect configured providers and authenticated subscriptions,
+3. discover reachable models automatically,
+4. verify candidate models with real calls,
+5. split work into **heavy / medium / light / vision** lanes,
+6. trim irrelevant skills safely,
+7. apply only high-ROI changes,
+8. verify the result before declaring success.
 
 That makes it useful for:
 - Azure-first users
@@ -61,6 +62,7 @@ That makes it useful for:
 | Feature | Description |
 |---------|-------------|
 | **Provider autodiscovery** | Reads the live Hermes setup first instead of pushing a hardcoded model preset. |
+| **Automatic model inventory** | Detects configured providers, authenticated subscriptions, and reachable models before asking the user anything. |
 | **Lane-based routing** | Separates heavy, medium, light, and vision tasks by cost/capability profile. |
 | **Live verification** | Rejects stale catalog entries, retired models, and broken routes before recommending them. |
 | **Guardrail upgrades** | Pushes high-value defaults like hard stops, checkpoints, and safer approval modes. |
@@ -90,6 +92,8 @@ Or simply ask:
 ```text
 Help me optimize Hermes.
 ```
+
+The skill should inspect the live Hermes setup and discover available models automatically. The user should not need to type out their model list first.
 
 <details>
 <summary>⚙️ Advanced install and sharing modes</summary>
@@ -135,7 +139,7 @@ See [`PUBLISHING.md`](PUBLISHING.md) and [`RELEASE_COMMANDS.md`](RELEASE_COMMAND
 |--------|-------|
 | **Primary purpose** | Reduce Hermes spend and routing mistakes without hardcoding one stack |
 | **Best for** | Users with Azure, Ollama Cloud, mixed-provider, or evolving model catalogs |
-| **Core mechanism** | Provider autodiscovery → live verification → lane-based routing |
+| **Core mechanism** | Provider autodiscovery → automatic model inventory → live verification → lane-based routing |
 | **Cleanup rule** | Prefer `skills.disabled` over deleting bundled files |
 | **Main promise** | Safer recommendations backed by live checks |
 

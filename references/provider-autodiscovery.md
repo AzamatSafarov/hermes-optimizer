@@ -6,6 +6,12 @@ The main requirement of `hermes-optimizer` is: **infer first, optimize second**.
 
 When a user asks to optimize Hermes, the skill should determine the user's real provider stack from live state whenever possible instead of asking them to manually enumerate every model.
 
+The default behavior should be:
+- detect which providers are already configured or authenticated
+- inspect which model routes are actually available through those subscriptions / credentials
+- build recommendations from that live inventory
+- ask the user to list models only if the environment is inaccessible or the live state is incomplete
+
 ## Evidence order
 
 Use this order of trust:
@@ -36,6 +42,8 @@ Use this order of trust:
 - Is there a fallback chain?
 - Are auxiliary tasks all pinned to the premium main model?
 - Does the alternate provider have a live vision route?
+- Which providers are actually configured or authenticated in this install?
+- Which model routes are actually reachable through the user's subscriptions / credentials?
 - Which cheap models are actually usable for light/internal tasks?
 - Which stronger models are actually usable for heavy tasks?
 
@@ -65,6 +73,7 @@ The skill should produce recommendations in this form:
 
 ## What not to do
 
+- do not ask the user to enumerate models before checking live state
 - do not assume one user's routing snapshot applies globally
 - do not use cache/UI visibility as proof that a model is live
 - do not optimize before confirming the real provider stack

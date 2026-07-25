@@ -1,7 +1,7 @@
 ---
 name: hermes-optimizer
-description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits live config, infers provider stack, verifies models, and applies safe high-ROI fixes."
-version: 1.3.0
+description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits live config, detects available providers/models from active subscriptions and credentials, verifies routes, and applies safe high-ROI fixes."
+version: 1.4.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -17,6 +17,8 @@ metadata:
 Optimize Hermes Agent for lower spend, better routing, safer autonomous behavior, and lower prompt overhead.
 
 This skill is intentionally **provider-agnostic**. It does not assume one fixed model catalog or one user's subscription. Instead, it teaches an optimization method that starts from **live autodiscovery** of the user's provider stack and then applies lane-based routing and guardrail improvements.
+
+The user should not have to manually list their models. The skill should inspect the configured providers, authenticated subscriptions, fallback routes, and auxiliary lanes; discover what is actually available; and only ask the user if the environment cannot be inspected directly.
 
 The highest-ROI optimization order is usually:
 
@@ -42,13 +44,14 @@ Do **not** use this skill as a hardcoded provider recipe for every user. Infer t
 ## Core Rules
 
 1. **Inspect the active Hermes configuration first.** Start with the current Hermes config exposed in this environment.
-2. **Infer the provider stack.** Determine which provider/model is main and which auxiliary routes already exist.
-3. **Verify models with real calls.** Never trust stale caches, screenshots, or old notes alone.
-4. **Preserve user intent.** If the user wants Azure GPT as main, optimize around that instead of replacing it.
-5. **Use lane-based routing.** Pick models by task class, not by hype.
-6. **Keep examples separate from policy.** User-specific mappings belong in notes/references, not the universal skill body.
-7. **Back up config before edits.**
-8. **Re-read and verify after every config change.**
+2. **Infer the provider stack and accessible subscriptions.** Determine which providers, deployments, and authenticated routes the user already has.
+3. **Inventory models automatically from live state.** Prefer configured providers, authenticated subscriptions, fallback chains, auxiliary routes, and provider/model commands over asking the user to list models manually.
+4. **Verify models with real calls.** Never trust stale caches, screenshots, or old notes alone.
+5. **Preserve user intent.** If the user wants Azure GPT as main, optimize around that instead of replacing it.
+6. **Use lane-based routing.** Pick models by task class, not by hype.
+7. **Keep examples separate from policy.** User-specific mappings belong in notes/references, not the universal skill body.
+8. **Back up config before edits.**
+9. **Re-read and verify after every config change.**
 
 ## Provider Autodiscovery
 
@@ -60,6 +63,8 @@ Before proposing any optimization, determine:
 - current auxiliary routing
 - whether vision is configured separately
 - whether the user is on a single-provider or mixed-provider setup
+- which providers are actually configured or authenticated for this Hermes install
+- which model routes are actually reachable through those subscriptions / credentials
 
 Preferred evidence order:
 
@@ -69,6 +74,20 @@ Preferred evidence order:
 4. user statement, if the environment is inaccessible
 
 If the config and the user's statement disagree, trust the live config and then ask about intentional overrides.
+
+### Automatic subscription and model discovery
+
+The skill should prefer automatic discovery over questionnaires.
+
+Default discovery flow:
+1. inspect which providers are present in `config.yaml`
+2. inspect fallback and auxiliary provider assignments
+3. inspect available authentication / credential state exposed through Hermes
+4. use provider/model commands available in the current install to discover reachable models
+5. if no model-list command exists for a provider, probe likely routes with real one-shot Hermes calls
+6. build heavy / medium / light / vision candidates only from models that are actually reachable
+
+The user should **not** have to type out "I have subscription X and models Y/Z" unless live inspection is blocked.
 
 ## Lane Model
 
@@ -137,6 +156,13 @@ This classification is descriptive only. It helps choose candidates but does not
 
 ### Step 3 — Inventory live model options
 Gather the real model catalog available to this user.
+
+Default method:
+- inspect configured providers and authenticated subscriptions first
+- inspect fallback and auxiliary providers already present in the config
+- use Hermes provider/model commands available in the current install to enumerate reachable models
+- if enumeration is unavailable, probe likely candidates with real one-shot calls
+- avoid asking the user to manually list models unless the environment is inaccessible
 
 Then classify candidates by lane:
 - heavy
@@ -208,6 +234,7 @@ Safe cleanup pattern:
 
 - [ ] live `config.yaml` inspected
 - [ ] provider stack inferred from live state
+- [ ] accessible providers / subscriptions detected automatically where possible
 - [ ] config backup created before edits
 - [ ] main model preserved unless user requested otherwise
 - [ ] fallback chain configured and listed
@@ -216,6 +243,7 @@ Safe cleanup pattern:
 - [ ] checkpoints enabled when appropriate
 - [ ] irrelevant skills disabled instead of deleted
 - [ ] every candidate model verified with a real test call
+- [ ] the user was not asked to enumerate models unless live inspection was blocked
 - [ ] post-change behavior checked after restart
 
 ## Provenance
