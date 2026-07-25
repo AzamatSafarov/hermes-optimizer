@@ -1,34 +1,33 @@
 <div align="center">
-  <img src="assets/hermes-optimizer-mark.svg" alt="Hermes Optimizer mark" width="96" height="96">
+  <img src="assets/hermes-optimizer-hero.svg" alt="Hermes Optimizer hero banner" width="100%">
 
 # Hermes Optimizer
 
 [![Hermes Skill](https://img.shields.io/badge/Hermes-Skill-7c3aed?style=flat-square)](#)
 [![Status](https://img.shields.io/badge/status-public%20ready-22c55e?style=flat-square)](#)
-[![Mode](https://img.shields.io/badge/routing-provider--agnostic-2563eb?style=flat-square)](#)
-[![Flow](https://img.shields.io/badge/logic-autodiscovery-f59e0b?style=flat-square)](#)
+[![Autodiscovery](https://img.shields.io/badge/autodiscovery-live%20first-f59e0b?style=flat-square)](#)
+[![Routing](https://img.shields.io/badge/routing-heavy%20%7C%20medium%20%7C%20light-2563eb?style=flat-square)](#)
 [![License](https://img.shields.io/badge/license-MIT-e5e7eb?style=flat-square)](LICENSE)
 
 > *A reusable Hermes skill for discovering the user's stack and cutting wasted spend safely.*
 
-[Quick Start](#quick-start) • [Features](#features) • [How It Works](#how-it-works) • [Install](#quick-start) • [Repository Layout](#repository-layout) • [Roadmap](#roadmap)
+[Quick Start](#quick-start) • [Why Hermes Optimizer](#why-hermes-optimizer) • [Feature Highlights](#feature-highlights) • [Optimization Workflow](#optimization-workflow) • [Project Structure](#project-structure) • [Roadmap](#roadmap)
 
 </div>
 
 ---
 
-## Concept
+## Why Hermes Optimizer
 
 Most "optimizer" skills are secretly somebody else's preset.
 
-**Hermes Optimizer** is built around a stricter idea: **infer first, optimize second**.
-It does not assume one provider, one subscription, one model catalog, or one user's personal stack. Instead it teaches Hermes to:
+**Hermes Optimizer** is built around a stricter rule: **infer first, optimize second**. Instead of assuming one provider, one subscription, one model catalog, or one personal setup, it teaches Hermes to:
 
 1. inspect the active Hermes configuration,
 2. infer the user's current provider profile,
 3. verify real model availability with live checks,
 4. split work into heavy / medium / light / vision lanes,
-5. apply only high-ROI configuration changes.
+5. apply only safe high-ROI configuration changes.
 
 That makes it useful for:
 - Azure-first users
@@ -38,7 +37,47 @@ That makes it useful for:
 
 ---
 
-## Features
+## At a Glance
+
+| Signal | Value |
+|---|---|
+| **Primary purpose** | Reduce Hermes spend and routing mistakes without blindly hardcoding one stack |
+| **Best for** | Users with Azure, Ollama Cloud, mixed-provider, or evolving model catalogs |
+| **Core mechanism** | Provider autodiscovery → live verification → lane-based routing |
+| **Output** | Safer config recommendations, better auxiliary routing, lower prompt waste |
+| **Distribution** | Public GitHub repo, raw `SKILL.md`, future ecosystem/hub listing |
+
+---
+
+## Quick Start
+
+Install directly from GitHub:
+
+```bash
+hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
+```
+
+Or add the repository as a reusable skill source:
+
+```bash
+hermes skills tap add AzamatSafarov/hermes-optimizer
+```
+
+Then load it in Hermes:
+
+```text
+/skill hermes-optimizer
+```
+
+Or simply ask:
+
+```text
+Help me optimize Hermes.
+```
+
+---
+
+## Feature Highlights
 
 | Feature | Description |
 |---|---|
@@ -52,7 +91,7 @@ That makes it useful for:
 
 ---
 
-## How It Works
+## Optimization Workflow
 
 ```text
 User asks to optimize Hermes
@@ -102,35 +141,7 @@ Used only when a **verified live multimodal route** exists.
 
 ---
 
-## Quick Start
-
-### Install directly from GitHub
-
-```bash
-hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
-```
-
-### Or add the repository as a skill source
-
-```bash
-hermes skills tap add AzamatSafarov/hermes-optimizer
-```
-
-### Then use it in Hermes
-
-```text
-/skill hermes-optimizer
-```
-
-Or just ask:
-
-```text
-Help me optimize Hermes.
-```
-
----
-
-## What the Skill Optimizes
+## What Improves
 
 | Area | Typical improvement |
 |---|---|
@@ -142,7 +153,7 @@ Help me optimize Hermes.
 
 ---
 
-## Repository Layout
+## Project Structure
 
 ```text
 📁 hermes-optimizer/
@@ -153,6 +164,9 @@ Help me optimize Hermes.
 ├── 📋 KANBAN.md                         ← publication work board
 ├── 🚀 PUBLISHING.md                     ← GitHub + ecosystem publication flow
 ├── 🛠️ RELEASE_COMMANDS.md               ← exact push / publish commands
+├── 🎨 assets/
+│   ├── 🖼️ hermes-optimizer-mark.svg     ← repo icon mark
+│   └── 🖼️ hermes-optimizer-hero.svg     ← hero banner
 ├── 📁 references/
 │   ├── 📄 imported-skills.md            ← upstream skills used as inputs
 │   ├── 📄 provider-autodiscovery.md     ← autodiscovery design rules
@@ -163,10 +177,10 @@ Help me optimize Hermes.
 
 ---
 
-## Provenance
+## Sources and Attribution
 
 This repository is **not** a blind copy of one upstream skill.
-It is a reviewed synthesis built from several optimization-oriented skills, including work on:
+It is a reviewed synthesis built from several optimization-oriented skill ideas, including work on:
 
 - token budgeting
 - prompt caching
@@ -182,21 +196,21 @@ See:
 
 ---
 
-## Publish / Share Options
+## Reuse and Distribution
 
-### Share with one colleague
+Share with one colleague:
 
 ```bash
 hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
 ```
 
-### Share as a reusable source
+Share as a reusable source:
 
 ```bash
 hermes skills tap add AzamatSafarov/hermes-optimizer
 ```
 
-### Move toward ecosystem publication
+Move toward ecosystem publication:
 
 See [`PUBLISHING.md`](PUBLISHING.md).
 
