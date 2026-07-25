@@ -8,6 +8,12 @@
 ![Routing](https://img.shields.io/badge/Routing-Lane_Based-2563eb?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-e5e7eb?style=for-the-badge)
 
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+![YAML](https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
+![SVG](https://img.shields.io/badge/SVG-FFB13B?style=for-the-badge&logo=svg&logoColor=black)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Shields.io](https://img.shields.io/badge/Shields.io-000000?style=for-the-badge&logo=shieldsdotio&logoColor=white)
+
 **Provider-agnostic Hermes Agent optimization skill with autodiscovery, skill cleanup, and safer routing defaults.**
 
 [Quick Start](#-quick-start) • [Features](#-features) • [Workflow](#-workflow) • [Structure](#-project-structure) • [Roadmap](#-roadmap)
