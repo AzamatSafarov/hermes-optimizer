@@ -1,7 +1,7 @@
 ---
 name: hermes-optimizer
 description: "Use when optimizing Hermes Agent cost, routing, skills, and guardrails. Audits live config, detects available providers/models from active subscriptions and credentials, verifies routes, and applies safe high-ROI fixes."
-version: 1.4.0
+version: 1.4.1
 author: Hermes Agent
 license: MIT
 metadata:
@@ -181,7 +181,7 @@ Reject models that:
 
 ### Step 5 — Apply high-ROI config changes
 Typical wins:
-- split auxiliary lanes away from the premium main model
+- split auxiliary task slots away from the premium main model
 - enable `tool_loop_guardrails.hard_stop_enabled`
 - enable `checkpoints.enabled`
 - switch `approvals.mode` to `smart`
@@ -189,6 +189,54 @@ Typical wins:
 - disable obviously irrelevant skills
 - enable curator consolidation where appropriate
 
+### Step 5a — Write auxiliary routing in the exact config shape Hermes Desktop expects
+Do **not** invent umbrella keys like `heavy`, `medium`, or `light` under `auxiliary`.
+The desktop Models page only recognizes the canonical task slots:
+- `vision`
+- `web_extract`
+- `compression`
+- `skills_hub`
+- `approval`
+- `mcp`
+- `title_generation`
+- `triage_specifier`
+- `kanban_decomposer`
+- `profile_describer`
+- `curator`
+
+Write auxiliary routing as nested per-task dicts under `auxiliary`, for example:
+
+```yaml
+auxiliary:
+  vision:
+    provider: azure-foundry
+    model: gpt-5.4
+  web_extract:
+    provider: ollama-cloud
+    model: kimi-k2.5
+  compression:
+    provider: ollama-cloud
+    model: kimi-k2.5
+  approval:
+    provider: ollama-cloud
+    model: deepseek-v4-flash
+  skills_hub:
+    provider: ollama-cloud
+    model: gpt-oss:20b
+```
+
+For custom/local endpoints, persist the endpoint on the task itself, not only on the main model:
+
+```yaml
+auxiliary:
+  compression:
+    provider: custom
+    model: my-model
+    base_url: http://127.0.0.1:1234/v1
+    api_key: dummy
+```
+
+If the config is written in any other shape, Hermes Desktop may keep showing the old settings even though the YAML changed.
 ### Step 5b — Trim irrelevant skills by platform
 Use platform-aware skill cleanup as part of Hermes optimization.
 
@@ -219,6 +267,8 @@ Safe cleanup pattern:
 - disable imported source-skills once their logic has been absorbed into a stronger umbrella skill
 - keep a provenance note so the cleanup is reversible
 - prefer disabling over deleting
+- tell the user plainly that disabling changes the **enabled** count, not the **installed** count
+- if the user wants fewer installed skills in `hermes skills list`, treat that as a separate uninstall/delete step
 
 ## Common Pitfalls
 

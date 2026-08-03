@@ -4,9 +4,14 @@
 
 ## Core principle
 
-Disable irrelevant skills instead of deleting them.
+Disable irrelevant skills instead of deleting them by default.
 
 That preserves reversibility, avoids damaging bundled installs, and still removes prompt overhead and accidental false triggers.
+
+Important distinction:
+- updating `skills.disabled` reduces the number of **enabled** skills
+- it does **not** reduce the number of **installed** skills shown by `hermes skills list`
+- if the user wants the installed count itself to go down, that is a separate uninstall/delete step
 
 ## Windows-first safe trim
 
@@ -53,10 +58,12 @@ Safe examples:
 4. propose the trim list to the user when the request is narrow
 5. apply directly when the user asks for broad Hermes optimization / cleanup
 6. prefer `disabled` list updates over file deletion
-7. verify config after changes
+7. tell the user explicitly when a requested installed-count reduction needs manual uninstall / separate removal
+8. verify config after changes
 
 ## What not to do
 
-- do not physically remove bundled skills from the Hermes install
+- do not physically remove bundled skills from the Hermes install by default
+- do not claim that disabling skills lowered the installed skill count
 - do not delete user-authored skills just because they are idle
 - do not disable a skill the user actively relies on without checking recent relevance

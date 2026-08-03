@@ -69,6 +69,7 @@ That makes it useful for:
 | **Platform-aware skill trim** | Targets irrelevant platform-specific skills, such as Apple/macOS-only defaults on Windows. |
 | **Skill-bloat cleanup** | Disables noise safely instead of deleting bundled skills destructively. |
 | **Fallback review** | Flags fake fallback chains that point back to the same weak path. |
+| **Desktop-compatible aux config** | Writes auxiliary routing in the exact per-task config shape the Hermes Desktop Models page understands. |
 | **GitHub-ready packaging** | Ships as a public repo, raw `SKILL.md`, and reusable reference pack. |
 
 ---
@@ -141,6 +142,7 @@ Then the skill should do the discovery work itself:
 - guess which provider is supplying which route
 - remember old screenshots or stale catalog snapshots
 - pre-sort models into “cheap” and “strong” buckets by hand
+- invent custom auxiliary YAML shapes that Hermes Desktop does not understand
 
 ### What the skill should return
 
@@ -151,6 +153,31 @@ Then the skill should do the discovery work itself:
 | **Lane mapping** | Which models fit heavy / medium / light / vision work |
 | **Weak points** | Bad fallback chains, main-model overuse, stale config, or skill bloat |
 
+### Desktop-compatible auxiliary format
+
+When the skill writes auxiliary routing, it should use the exact nested task format Hermes Desktop understands:
+
+```yaml
+auxiliary:
+  vision:
+    provider: azure-foundry
+    model: gpt-5.4
+  web_extract:
+    provider: ollama-cloud
+    model: kimi-k2.5
+  compression:
+    provider: ollama-cloud
+    model: kimi-k2.5
+  approval:
+    provider: ollama-cloud
+    model: deepseek-v4-flash
+```
+
+Use canonical task keys such as `vision`, `web_extract`, `compression`, `skills_hub`, `approval`, `mcp`, `title_generation`, `triage_specifier`, `kanban_decomposer`, `profile_describer`, and `curator`.
+Do **not** invent umbrella keys like `heavy`, `medium`, or `light` under `auxiliary` if the goal is for the Desktop Models page to reflect the change.
+
+For custom/local endpoints, the task itself must carry `base_url` and (if needed) `api_key`.
+
 ---
 
 ## 🧩 Skill Package
@@ -159,11 +186,10 @@ Then the skill should do the discovery work itself:
 |------|---------|
 | `SKILL.md` | Runtime Hermes skill with the optimization workflow and decision rules. |
 | `references/provider-autodiscovery.md` | Rules for detecting the real provider stack before changing anything. |
-| `references/platform-skill-trim.md` | Platform-aware disable guidance for irrelevant built-in skills. |
+| `references/platform-skill-trim.md` | Platform-aware disable guidance for irrelevant built-in skills, plus enabled-vs-installed cleanup rules. |
 | `notes/current-routing.md` | Generic provider-profile examples rather than personal defaults. |
 | `assets/hermes-optimizer-hero.svg` | README hero banner for GitHub presentation. |
 | `assets/architecture-flow.svg` | Visual workflow diagram for the optimization flow. |
-| `.github/workflows/repo-readme-quality.yml` | Automated README and link checks on push. |
 | `llms.txt` / `llms-full.txt` | Machine-readable project summary for LLM-assisted discovery. |
 
 ---
@@ -275,9 +301,12 @@ User asks to optimize Hermes
 | **Fallback chains** | Exposes fake fallback paths and pushes for genuinely separate backup routes. |
 | **Guardrails** | Enables loop protection and safer autonomous behavior on cost-sensitive setups. |
 | **Checkpoints** | Makes risky file/config work easier to roll back. |
-| **Skill overhead** | Reduces prompt bloat and accidental irrelevant skill activation. |
+| **Skill overhead** | Reduces enabled-skill prompt bloat and accidental irrelevant skill activation. |
 | **Platform mismatch** | Disables obviously irrelevant skills like Apple/macOS defaults on Windows. |
 | **Config hygiene** | Surfaces version drift and deprecated keys before they become breakage. |
+
+> [!IMPORTANT]
+> Skill cleanup is **disable-first**. Updating `skills.disabled` lowers the number of **enabled** skills, but it does **not** automatically lower the number of **installed** skills shown by `hermes skills list`. Installed-count reduction is a separate uninstall/delete step.
 
 ---
 
