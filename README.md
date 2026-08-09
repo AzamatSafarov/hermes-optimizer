@@ -18,7 +18,7 @@
 
 **A reusable Hermes skill for cost-aware routing, safer defaults, automatic model discovery, skill cleanup, and live provider autodiscovery.**
 
-<a href="#-quick-start">Quick Start</a> · <a href="#-zero-manual-optimization">Zero-Manual Optimization</a> · <a href="#-features">Features</a> · <a href="#-skill-package">Skill Package</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-workflow">Workflow</a> · <a href="#-roadmap">Roadmap</a>
+<a href="#-quick-start">Quick Start</a> - <a href="#-zero-manual-optimization">Zero-Manual Optimization</a> - <a href="#-features">Features</a> - <a href="#-skill-package">Skill Package</a> - <a href="#-tech-stack">Tech Stack</a> - <a href="#-workflow">Workflow</a> - <a href="#-roadmap">Roadmap</a>
 
 <img src="assets/hermes-optimizer-hero.svg" alt="Hermes Optimizer hero banner" width="100%">
 
@@ -79,7 +79,7 @@ That makes it useful for:
 Install directly from GitHub:
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
+hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/SKILL.md -y
 ```
 
 Load it in Hermes:
@@ -102,13 +102,13 @@ The skill should inspect the live Hermes setup and discover available models aut
 ### Add the repository as a skill source
 
 ```bash
-hermes skills tap add AzamatSafarov/hermes-optimizer
+hermes skills tap add $OWNER/$REPO
 ```
 
 ### Share with a colleague
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y
+hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/SKILL.md -y
 ```
 
 ### Publication handoff
@@ -380,6 +380,6 @@ MIT. See [LICENSE](LICENSE).
 
 <div align="center">
 
-**Built by [Azamat Safarov](https://github.com/AzamatSafarov)**
+**Built for the open-source community**
 
 </div>
