@@ -135,7 +135,7 @@ If the alternate provider has no proven live vision model:
 
 ## Optimization Workflow
 
-### Step 1 — Audit live configuration
+### Step 1 - Audit live configuration
 Check:
 - main provider/model
 - fallback chain
@@ -145,7 +145,7 @@ Check:
 - checkpoints
 - enabled/disabled skill scope
 
-### Step 2 — Infer provider profile
+### Step 2 - Infer provider profile
 Classify the user's setup as one of:
 - single-provider premium stack
 - single-provider budget stack
@@ -154,7 +154,7 @@ Classify the user's setup as one of:
 
 This classification is descriptive only. It helps choose candidates but does not replace real verification.
 
-### Step 3 — Inventory live model options
+### Step 3 - Inventory live model options
 Gather the real model catalog available to this user.
 
 Default method:
@@ -170,7 +170,7 @@ Then classify candidates by lane:
 - light
 - vision
 
-### Step 4 — Verify real candidates
+### Step 4 - Verify real candidates
 Run real one-shot tests.
 
 Reject models that:
@@ -179,7 +179,7 @@ Reject models that:
 - fail Hermes minimum context requirements
 - have unstable or malformed behavior on simple smoke tests
 
-### Step 5 — Apply high-ROI config changes
+### Step 5 - Apply high-ROI config changes
 Typical wins:
 - split auxiliary task slots away from the premium main model
 - enable `tool_loop_guardrails.hard_stop_enabled`
@@ -189,7 +189,7 @@ Typical wins:
 - disable obviously irrelevant skills
 - enable curator consolidation where appropriate
 
-### Step 5a — Write auxiliary routing in the exact config shape Hermes Desktop expects
+### Step 5a - Write auxiliary routing in the exact config shape Hermes Desktop expects
 Do **not** invent umbrella keys like `heavy`, `medium`, or `light` under `auxiliary`.
 The desktop Models page only recognizes the canonical task slots:
 - `vision`
@@ -237,7 +237,7 @@ auxiliary:
 ```
 
 If the config is written in any other shape, Hermes Desktop may keep showing the old settings even though the YAML changed.
-### Step 5b — Trim irrelevant skills by platform
+### Step 5b - Trim irrelevant skills by platform
 Use platform-aware skill cleanup as part of Hermes optimization.
 
 Rules:
@@ -248,7 +248,7 @@ Rules:
 
 See supporting references for concrete Windows-safe default candidates.
 
-### Step 6 — Verify after changes
+### Step 6 - Verify after changes
 After editing:
 1. re-read `config.yaml`
 2. verify fallback with `hermes fallback list`
