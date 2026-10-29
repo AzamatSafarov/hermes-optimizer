@@ -27,6 +27,7 @@ It works as a guided loop: read live state, ask what inspection cannot answer, a
 - skills/hermes-optimizer/references/auxiliary-config-shape.md
 - skills/hermes-optimizer/references/audit-output.md
 - skills/hermes-optimizer/references/skill-trim.md
+- skills/hermes-optimizer/references/skills-sh-publishing.md
 
 ## Install
 - `hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/skills/hermes-optimizer/SKILL.md -y`

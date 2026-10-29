@@ -164,4 +164,5 @@ Supporting references:
 - `references/skill-trim.md` - platform-aware skill trim rules
 - `references/provider-autodiscovery.md` - provider detection rules
 - `references/synthesis-map.md` - provenance
+- `references/skills-sh-publishing.md` - how to get the skill into the skills.sh index
 - `notes/current-routing.md` - generic provider-profile examples
