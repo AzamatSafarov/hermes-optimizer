@@ -12,6 +12,17 @@ PHASE N - <name>
   Checkpoint -> show what changed, get a yes before moving on
 ```
 
+Every phase ends with an explicit verdict, and the verdicts are not interchangeable:
+
+| Verdict | Meaning | Action |
+|---|---|---|
+| **Clean** | audit proves the phase already optimal | may skip - state the proof in one line |
+| **Populated, unverified** | something is there, nobody asked if it fits | **ask** - the default verdict |
+| **Dirty** | a concrete defect found | ask, then fix |
+
+Never skip a phase on count alone. Never write a bare "skipped" with no evidence. A populated
+stack is not a calibrated stack: see `ask-dont-assume.md`.
+
 Never skip the checkpoint. Never run two phases in one go on a fresh install.
 
 ---
@@ -84,10 +95,11 @@ chain, and which candidates you rejected and why.
 
 ---
 
-## Phase 3 - Plugins
+## Phase 3 - Plugins, connectors, and automation
 
-A fresh install has zero third-party plugins. That is the single biggest capability gap, and it
-is invisible until the user tries to do something and the tool is not there.
+A fresh install has zero third-party plugins, and **no connectors at all**. That is the single
+biggest capability gap, and it is invisible until the user tries to do something and the tool is
+not there. Even a populated plugin list leaves the connector question unasked.
 
 **Questions:**
 
@@ -96,23 +108,28 @@ is invisible until the user tries to do something and the tool is not there.
 - Which specific jobs hurt today?
 - Which surfaces do you live in: Word/PowerPoint/Excel files, PDFs, long sessions, delegation
   to sub-agents?
+- **Connectors** - grouped multi-select, named options. See `references/connectors.md`. Groups:
+  code/deploy, data/backend, work tracking, comms, observability, design/content.
+- **Automation surfaces** - chat platform (Telegram, Slack, Discord, WhatsApp), a task board
+  (kanban), cron for recurring jobs, webhooks for inbound events. Name the use case, not the
+  mechanism: "a daily digest of X" beats "do you want cron?".
 
-Ask these as concrete options, not open prose. The answers select from
-`plugin-baseline.md`.
+Ask these as concrete options, not open prose. The answers select from `plugin-baseline.md` and
+`connectors.md`.
 
 **Actions:**
 
-1. Desktop route: **Capabilities -> Plugins**. This is the catalog browser with install and
-   enable switches.
-2. Propose the baseline set matched to their answers. Name what each one buys them.
-3. For each install, run the fit test first (see `plugin-baseline.md`). Skip anything that
-   duplicates a live capability.
-4. Install, then enable.
-5. Verify the plugin's tools appear in the toolset list, and that its own settings page shows
+1. Read the live connector state: `mcp_servers` in the config plus **Capabilities -> Connectors**.
+   A server present but `enabled: false` is a decided-off connector, not a missing one.
+2. Desktop route: **Capabilities -> Plugins** for plugins, **Capabilities -> Connectors** for MCP.
+3. Propose the baseline set matched to their answers. Name what each buys them.
+4. Run the fit test first (`plugin-baseline.md`). Skip anything that duplicates a live capability.
+5. Install, then enable. Install only connectors the user picked.
+6. Verify each connector's tools appear in `hermes tools list`, and that its settings page shows
    under **Settings -> Plugins** if it declares one.
 
-**Checkpoint:** list installed plugins, the tools each one added, and anything you deliberately
-skipped with the reason.
+**Checkpoint:** list installed plugins, connectors added, connectors offered-and-declined, any
+broken connector, the automation surfaces, and anything deliberately skipped with the reason.
 
 ---
 
@@ -141,20 +158,28 @@ option you rejected and why.
 
 ## Phase 5 - Skills
 
+A large enabled count with nothing disabled is **uncalibrated**, not clean. Treat an
+enabled-equals-installed install as dirty and calibrate it. Full procedure:
+`references/skill-calibration.md`.
+
 **Questions:**
 
-- Which domains are real for you? (list the enabled categories you can see)
+- Which domains are real for you? (show their own categories with counts)
 - Anything in that list you have never used and do not intend to?
 
 **Actions:**
 
-1. Desktop route: **Capabilities -> Skills**, which lists skills with enable/disable.
-2. Apply `skill-trim.md` rules. Disable, do not delete.
-3. State the enabled-vs-installed distinction explicitly so the user is not surprised by the
-   installed count.
-4. Keep a provenance note so the trim is reversible.
+1. Desktop route: **Capabilities -> Skills**.
+2. Group the enabled set by category and show the user their own counts.
+3. Apply the platform filter (`skill-trim.md`) - anything that cannot fire on this host is a
+   default-off candidate.
+4. Ask **per group**, not per skill.
+5. Disable, do not delete. Offer a bundle where a domain is needed occasionally, not never.
+6. State the enabled-vs-installed distinction explicitly.
 
-**Checkpoint:** show enabled count before and after, plus the disable list.
+**Checkpoint:** show enabled count before and after, the disable list with reasons, and the
+unchanged installed count. If the user declined every group, record that as their decision -
+do not report the phase as clean.
 
 ---
 
@@ -181,7 +206,7 @@ practical risk stated - not just the severity labels.
 
 ---
 
-## Phase 7 - Verification and handoff
+## Phase 7 - Verification, visualization, handoff
 
 **Questions:** none.
 
@@ -191,8 +216,11 @@ practical risk stated - not just the severity labels.
 2. Smoke-test the main route and at least one fallback with real calls.
 3. Confirm the Desktop pages show the new state - do not trust the YAML alone, the app can
    show stale values if the config was written in a shape it does not parse.
-4. Produce a short before/after: main model, aux routing, plugins added, skills disabled,
-   guardrails flipped, utilities installed.
+4. **Emit the run visualization** per `references/visualization.md`: a before/after chart and a
+   phase timeline, built from verified numbers only, with flat and deferred rows included.
+   Save the pair under `~/.hermes/optimizer-runs/<YYYY-MM-DD>/`.
+5. Produce a short before/after: main model, aux routing, plugins and connectors added, skills
+   disabled, guardrails flipped, utilities installed.
 
 **Checkpoint:** this is the final handoff. Offer to save the resulting routing as a note so the
-next audit has a baseline.
+next audit has a baseline. A chart of wins only is a sales slide - show what did not improve too.

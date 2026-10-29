@@ -57,6 +57,8 @@ polishing it. The user should know what a phase buys before agreeing to it.
 7. **One phase, one checkpoint.** Do not start the next phase before the user confirms this one.
 8. **Back up config before edits, and re-read to verify after.**
 9. **Do not recommend a heavy local model that duplicates a capability already live.** See below.
+10. **A populated stack is not a calibrated stack.** Skip a phase only when audit *proves* it
+    optimal. "Already configured" is not "correctly configured". See `references/ask-dont-assume.md`.
 
 ## Silly vs smart: the anti-bloat test
 
@@ -93,11 +95,15 @@ sets, and checkpoint criteria live in `references/phase-plan.md`.
 | 0 | Baseline audit | Read live state, report honestly what is thin |
 | 1 | Provider and main model | Set provider, default model, reasoning, context |
 | 2 | Auxiliary and fallback routing | Split lanes off the main model, add a real fallback |
-| 3 | Plugins | Install the baseline set matched to the user's work |
+| 3 | Plugins, connectors, and automation | Match capabilities to the user's real work; name what they do not know exists |
 | 4 | Local utilities and document tooling | Make PDFs and Markdown readable |
-| 5 | Skills | Disable noise, keep the real domains |
+| 5 | Skills | **Calibrate** the enabled set, not just count it |
 | 6 | Guardrails, checkpoints, safety | Hard stop, checkpoints, smart approvals, health sweep |
-| 7 | Verification and handoff | Re-read, smoke-test, before/after summary |
+| 7 | Verification, visualization, handoff | Re-read, smoke-test, emit the before/after + timeline widgets |
+
+Three verdicts per phase, and they are not interchangeable: **clean** (audit proved it optimal -
+may skip, with the proof stated), **populated, unverified** (something is there but nobody asked if
+it fits - **ask, this is the default**), **dirty** (a concrete defect - ask, then fix).
 
 ## Lane model
 
@@ -149,6 +155,10 @@ case are in `references/auxiliary-config-shape.md`.
 - [ ] health sweep run across doctor, security, sessions, plugins, tools, LSP, memory
 - [ ] findings split into agent-fixable, user-decision, and upstream buckets
 - [ ] Desktop pages checked to reflect the new state
+- [ ] every phase given an explicit verdict: clean (with proof), populated-unverified, or dirty
+- [ ] plugins phase asked about connectors and automation surfaces by name
+- [ ] skills calibrated (enabled count reduced or the decline stated), not merely counted
+- [ ] run visualization emitted in Phase 7 and saved under `~/.hermes/optimizer-runs/`
 - [ ] every phase checkpointed with the user
 
 ## Provenance
@@ -168,4 +178,8 @@ Supporting references:
 - `references/synthesis-map.md` - provenance
 - `references/skills-sh-publishing.md` - how to get the skill into the skills.sh index
 - `references/health-sweep.md` - the subsystem health checklist (doctor, security, sessions, plugins, LSP, memory)
+- `references/ask-dont-assume.md` - the three phase verdicts and when a phase may be skipped
+- `references/connectors.md` - the connector and automation-surface question, with named options
+- `references/skill-calibration.md` - calibrate the enabled skill set, not just count it
+- `references/visualization.md` - before/after chart and phase timeline for the handoff
 - `notes/current-routing.md` - generic provider-profile examples
