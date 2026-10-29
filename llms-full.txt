@@ -66,3 +66,4 @@ CLI is for reading state, verifying, and what the app has no field for.
 - skills/hermes-optimizer/references/audit-output.md
 - skills/hermes-optimizer/references/skill-trim.md
 - skills/hermes-optimizer/references/skills-sh-publishing.md
+- skills/hermes-optimizer/references/health-sweep.md

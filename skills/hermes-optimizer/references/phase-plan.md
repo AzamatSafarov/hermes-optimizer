@@ -169,10 +169,15 @@ option you rejected and why.
 
 1. Enable `tool_loop_guardrails.hard_stop_enabled` on any cost-sensitive install.
 2. Enable checkpoints so risky file and config work can be rolled back.
-3. Move `approvals.mode` to a smart mode rather than allow-everything.
-4. Run the supply-chain audit and the doctor check, and report what they find.
+3. Check `approvals.mode`. **An absent key is not a disabled setting** - the default is already
+   `smart`, which asks on dangerous commands and passes safe ones. Only change it if the user
+   explicitly wants a different posture.
+4. Run the **health sweep** in `references/health-sweep.md`: `hermes doctor`, `hermes security
+   audit`, `hermes sessions stats`, plugin contract checks, `hermes tools list`, `hermes lsp status`,
+   `hermes memory status`. Report per bucket (agent-fixable / user-decision / upstream).
 
-**Checkpoint:** show the guardrail settings and the audit output.
+**Checkpoint:** show the guardrail settings and the health sweep findings, ranked, with the
+practical risk stated - not just the severity labels.
 
 ---
 

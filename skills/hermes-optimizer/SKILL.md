@@ -96,7 +96,7 @@ sets, and checkpoint criteria live in `references/phase-plan.md`.
 | 3 | Plugins | Install the baseline set matched to the user's work |
 | 4 | Local utilities and document tooling | Make PDFs and Markdown readable |
 | 5 | Skills | Disable noise, keep the real domains |
-| 6 | Guardrails, checkpoints, safety | Hard stop, checkpoints, smart approvals, audits |
+| 6 | Guardrails, checkpoints, safety | Hard stop, checkpoints, smart approvals, health sweep |
 | 7 | Verification and handoff | Re-read, smoke-test, before/after summary |
 
 ## Lane model
@@ -146,6 +146,8 @@ case are in `references/auxiliary-config-shape.md`.
 - [ ] loop hard-stop enabled
 - [ ] checkpoints enabled where risky file work happens
 - [ ] supply-chain audit and doctor run
+- [ ] health sweep run across doctor, security, sessions, plugins, tools, LSP, memory
+- [ ] findings split into agent-fixable, user-decision, and upstream buckets
 - [ ] Desktop pages checked to reflect the new state
 - [ ] every phase checkpointed with the user
 
@@ -165,4 +167,5 @@ Supporting references:
 - `references/provider-autodiscovery.md` - provider detection rules
 - `references/synthesis-map.md` - provenance
 - `references/skills-sh-publishing.md` - how to get the skill into the skills.sh index
+- `references/health-sweep.md` - the subsystem health checklist (doctor, security, sessions, plugins, LSP, memory)
 - `notes/current-routing.md` - generic provider-profile examples
