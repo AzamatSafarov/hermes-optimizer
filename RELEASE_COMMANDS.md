@@ -1,11 +1,12 @@
 # Release Commands
 
-Use these commands when you are ready to publish the repo and then publish the skill.
+Commands for publishing the repo, then the skill. All paths are relative to the repo root - do
+not commit or use an absolute path containing a username.
 
 ## 1. Push to GitHub
 
 ```bash
-cd "C:/Users/akuta/AI Agent/hermes/skill-optimizer-repo"
+cd hermes-optimizer
 git branch -M main
 git remote add origin <your-github-repo-url>
 git push -u origin main
@@ -26,25 +27,28 @@ hermes skills tap add owner/repo
 
 ## 3. Publish the skill
 
-From the repo root or from the skill directory:
+From the repo root:
 
 ```bash
-hermes skills publish "C:/Users/akuta/AI Agent/hermes/skill-optimizer-repo"
+hermes skills publish .
 ```
 
 Or choose an explicit target:
 
 ```bash
-hermes skills publish --to github "C:/Users/akuta/AI Agent/hermes/skill-optimizer-repo"
-hermes skills publish --to github --repo owner/repo "C:/Users/akuta/AI Agent/hermes/skill-optimizer-repo"
-hermes skills publish --to clawhub "C:/Users/akuta/AI Agent/hermes/skill-optimizer-repo"
+hermes skills publish --to github .
+hermes skills publish --to github --repo owner/repo .
+hermes skills publish --to clawhub .
 ```
 
 ## 4. Final pre-publish check
 
 Before publishing, confirm:
+
 - `git status --short` is empty
-- `SKILL.md` is the provider-agnostic official version
-- `README.md` explains autodiscovery and provenance
-- `PUBLISHING.md` and `references/` are present
-- blocked/skipped upstream skills are disclosed honestly
+- `SKILL.md` is the provider-agnostic guided version (version 2.0.0 or later)
+- `README.md` explains the phase plan, Desktop surfaces, and the anti-bloat test
+- all `references/` files are present and internal links resolve
+- no absolute path containing a username anywhere in the repo
+- blocked and skipped upstream skills are disclosed honestly in `references/synthesis-map.md`
+- the author's own routing is not present in any public example

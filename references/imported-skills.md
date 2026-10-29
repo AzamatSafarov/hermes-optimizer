@@ -1,6 +1,6 @@
 # Imported optimization skills
 
-Installed locally into `C:\Users\akuta\.hermes\skills\`:
+Installed as hub skills into the local Hermes skills directory (`~/.hermes/skills/`):
 
 ## Installed and used as synthesis inputs
 

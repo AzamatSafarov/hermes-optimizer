@@ -1,40 +1,67 @@
-# Hermes Optimizer — LLM reference
+# Hermes Optimizer - LLM reference
 
-Hermes Optimizer is a reusable Hermes Agent skill designed to optimize a user's Hermes setup without hardcoding one provider stack.
+Hermes Optimizer is a reusable Hermes Agent skill that brings an install up to speed, or tunes an expensive one, without hardcoding one provider stack.
 
-It should automatically detect configured providers, authenticated subscriptions, and reachable model routes before asking the user to enumerate available models.
+It runs a guided loop: read live configuration, ask only what inspection cannot answer, act in the Desktop app, checkpoint each phase, verify the result.
 
 ## Core principle
-Infer first, optimize second.
+Ask first, infer second, optimize third.
 
-The skill should inspect live configuration and route availability before making changes.
+## Modes
+- Bring-up: fresh or messy install. Runs all seven phases.
+- Tune: working install. Runs only the phases that audit dirty.
 
-## Main capabilities
-- provider autodiscovery
-- automatic model inventory from live subscriptions / credentials
-- live route verification
-- lane-based auxiliary routing
-- fallback-chain review
-- platform-aware skill cleanup
-- guardrail and checkpoint improvements
-- config hygiene review
+## The seven phases
+0. Baseline audit - read-only, produces the honest baseline report
+1. Provider and main model - Settings -> Models
+2. Auxiliary and fallback routing - split lanes off the main model, add a real fallback
+3. Plugins - Capabilities -> Plugins, install the baseline set matched to the user's work
+4. Local utilities and document tooling - PDF and Markdown text extraction
+5. Skills - Capabilities -> Skills, disable noise, keep real domains
+6. Guardrails, checkpoints, safety - hard stop, checkpoints, smart approvals, audits
+7. Verification and handoff - re-read, smoke-test, before/after
+
+Every phase: questions, then actions, then a checkpoint. Never two phases at once.
+
+## Anti-bloat rule
+Never recommend a heavy local install that duplicates a capability already live.
+
+Rejected by default: a multi-gigabyte local OCR model when the provider already has a working vision route; a local embedding model when the context engine already serves semantic recall; any local model duplicating a hosted route the user pays for; skills for platforms the host does not run.
+
+Recommended by default: a document and data loader for PDF and Markdown (structured text extraction is the base layer, and hosted vision does not replace it); guardrails, checkpoints, and a real fallback chain; auxiliary routing that moves work off the premium main model; plugins that fill a genuine gap.
 
 ## Expected output shape
-1. detected environment
-2. recommended lane mapping
-3. weak points or blockers
-4. verification notes
+1. baseline audit, ranked by return
+2. per-phase questions with concrete options
+3. recommended lane mapping
+4. rejections with stated reasons
+5. verification notes
+
+## Desktop surfaces
+- Settings -> Models: main provider and default model
+- Settings: auxiliary task rows and fallback models
+- Capabilities -> Plugins: catalog install and enable
+- Settings -> Plugins: per-plugin settings pages
+- Capabilities -> Skills: enable and disable
+- Capabilities -> Connectors: MCP and connectors
+
+CLI is for reading state, verifying, and what the app has no field for.
 
 ## Safety rules
 - do not present one user's model stack as a public default
-- prefer disabling irrelevant skills over deleting bundled skills
+- prefer disabling skills over deleting bundled skills
+- state the enabled-versus-installed skill counts, they differ
 - detect providers and reachable models from live state before asking the user to list anything
-- verify routes with real calls when possible
+- verify routes with real calls, a picker entry is not proof of a live route
 - keep examples generic in public documentation
+- never write umbrella auxiliary keys (heavy/medium/light), the Desktop page does not parse them
 
 ## Important references
-- `SKILL.md`
-- `README.md`
-- `references/provider-autodiscovery.md`
-- `references/platform-skill-trim.md`
-- `notes/current-routing.md`
+- SKILL.md
+- README.md
+- references/phase-plan.md
+- references/desktop-surfaces.md
+- references/plugin-baseline.md
+- references/auxiliary-config-shape.md
+- references/audit-output.md
+- references/skill-trim.md

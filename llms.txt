@@ -1,23 +1,32 @@
 # Hermes Optimizer
 
-Hermes Optimizer is a provider-agnostic Hermes Agent skill for auditing and improving routing, fallback, guardrails, checkpoints, and skill-layer noise.
+Hermes Optimizer is a provider-agnostic Hermes Agent skill that brings an install up to speed, or tunes an expensive one, in guided phases.
 
-It should autodetect configured providers, subscriptions, and reachable models whenever the environment can be inspected.
+It works as a guided loop: read live state, ask what inspection cannot answer, act in the Desktop app, checkpoint with the user.
 
 ## What it does
-- detects the active provider stack
-- verifies real model routes before suggesting changes
+- audits live config and reports honestly what is thin in a stock install
+- runs seven phases: provider, auxiliary routing, plugins, document tooling, skills, guardrails, verification
+- drives the Desktop app surfaces that own each setting
+- detects configured providers and reachable models before recommending anything
 - splits work into heavy / medium / light / vision lanes
-- flags weak fallback chains
-- disables irrelevant skills safely through config
-- prefers reversible high-ROI config changes
+- installs the plugin baseline that fills a real capability gap
+- rejects heavy local installs that duplicate an already-live hosted route
+- disables skills rather than deleting them, and states the enabled-versus-installed difference
+
+## Modes
+- Bring-up: a fresh or messy install, all seven phases
+- Tune: a working install, only the phases that audit dirty
 
 ## Key files
 - README.md
 - SKILL.md
-- references/provider-autodiscovery.md
-- references/platform-skill-trim.md
-- notes/current-routing.md
+- references/phase-plan.md
+- references/desktop-surfaces.md
+- references/plugin-baseline.md
+- references/auxiliary-config-shape.md
+- references/audit-output.md
+- references/skill-trim.md
 
 ## Install
 - `hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y`
