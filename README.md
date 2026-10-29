@@ -10,6 +10,8 @@
 ![Status](https://img.shields.io/badge/Status-Public_Ready-22c55e?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)
 
+[![skills.sh](https://skills.sh/b/AzamatSafarov/hermes-optimizer)](https://skills.sh/AzamatSafarov/hermes-optimizer)
+
 ![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
 ![YAML](https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
 ![SVG](https://img.shields.io/badge/SVG-FFB13B?style=for-the-badge&logo=svg&logoColor=black)
@@ -147,10 +149,18 @@ When the skill rejects something, it says why: *"You already have vision on your
 
 ## 🚀 Quick Start
 
-Install directly from GitHub:
+### One command, any agent
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/skills/hermes-optimizer/SKILL.md -y
+npx skills add AzamatSafarov/hermes-optimizer
+```
+
+This is the open skills CLI. It detects your agent (Hermes Agent is one of the 79 it recognizes), installs the skill with its references, and symlinks it into place. Use this if you just want the skill.
+
+### Install into Hermes specifically
+
+```bash
+hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/skills/hermes-optimizer/SKILL.md -y
 ```
 
 Load it in Hermes:
