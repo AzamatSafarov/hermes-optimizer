@@ -63,17 +63,18 @@ hermes --version >/dev/null 2>&1
 python -c "import sys, importlib.metadata as m; print(sys.executable); print(m.version('tornado'))"
 ```
 
-`sys.executable` names the interpreter that actually serves `hermes`. Install there.
+`sys.executable` names the interpreter that actually serves `hermes`. That is the environment to
+target.
 
-That venv is **uv-managed** and has no `pip`; use uv against it explicitly:
-
-```bash
-uv pip install --python "<sys.executable from above>" --upgrade "tornado>=6.5.9"
-```
+That environment is usually **uv-managed** and has no `pip`. If the user decides to upgrade a
+flagged dependency, resolve the exact version from the advisory, pin it explicitly, and let the
+user run the install themselves - do not bake an unpinned install command into this skill. An
+unpinned package-install line is flagged by the skills scanner (`unpinned_pip_install`), and a
+flagged line blocks the whole skill from installing.
 
 After any upgrade, verify in this order: import the package, import its dependents
 (`telegram`, `huggingface_hub`, `requests_oauthlib`), run one real `hermes chat -q` call, then
-re-run `hermes security audit` and confirm the count dropped. A successful `pip install` is not
+re-run `hermes security audit` and confirm the count dropped. A successful package install is not
 proof the audit changed - the audit reads a specific interpreter.
 
 ## 3. Session store health
