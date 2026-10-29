@@ -10,8 +10,40 @@ does **not** crawl arbitrary GitHub repos on a schedule. From their own About pa
 
 > "We index every public skill that ships through the open skills CLI"
 
-So ingestion is driven by installs through **their** CLI (`npx skills add owner/repo`), plus
-anonymous install telemetry. Two separate things: a repo page, and an Algolia search entry.
+Ingestion is driven by installs through **Vercel's** CLI (`npx skills add owner/repo`), which
+posts an anonymous telemetry event per install to `https://www.skills.sh/tele/t`. Two separate
+things exist side by side: a repo page, and an Algolia search entry.
+
+**Two different CLIs, and only one of them indexes:**
+
+| CLI | Who | Effect on the index |
+|---|---|---|
+| `npx skills add owner/repo` | Vercel (skills.sh) | **feeds it** — sends the install event |
+| `hermes skills install ...` | Nous (Hermes) | installs only; does **not** feed the index |
+
+Driving Vercel's CLI is the only lever that moves the Algolia entry.
+
+### What the install event carries
+
+From the CLI source (`skills` v1.7.4, `dist/cli.mjs`):
+
+```js
+const TELEMETRY_URL = "https://www.skills.sh/tele/t";
+
+track({
+  event: "install",
+  source: normalizedSource,   // "owner/repo"
+  skills: selectedSkills.map((s) => s.name).join(","),
+  agents: targetAgents.join(","),
+  skillFiles: JSON.stringify(skillFiles),   // the file list is part of the payload
+})
+```
+
+So the event carries the source repo, the skill names, the target agents, and the file list.
+`track()` fires only for repositories GitHub confirms are public.
+
+Telemetry is disabled by `DISABLE_TELEMETRY=1` or `DO_NOT_TRACK=1`, so a user who sets either
+contributes nothing to the index.
 
 ## What actually gates discovery
 
