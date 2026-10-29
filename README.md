@@ -83,7 +83,7 @@ The seven phases:
 
 **Bring-up** runs all seven on a fresh or messy install. **Tune** runs only the phases that audit dirty on a working install.
 
-Full per-phase question sets and checkpoint criteria: [`references/phase-plan.md`](references/phase-plan.md).
+Full per-phase question sets and checkpoint criteria: [`references/phase-plan.md`](skills/hermes-optimizer/references/phase-plan.md).
 
 ---
 
@@ -150,7 +150,7 @@ When the skill rejects something, it says why: *"You already have vision on your
 Install directly from GitHub:
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/SKILL.md -y
+hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/skills/hermes-optimizer/SKILL.md -y
 ```
 
 Load it in Hermes:
@@ -179,7 +179,7 @@ hermes skills tap add $OWNER/$REPO
 ### Share with a colleague
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/SKILL.md -y
+hermes skills install https://raw.githubusercontent.com/$OWNER/$REPO/main/skills/hermes-optimizer/SKILL.md -y
 ```
 
 ### Publication handoff
@@ -203,7 +203,7 @@ The skill sends you to the app, not to a terminal.
 | Skills | **Capabilities -> Skills** (`/capabilities?tab=skills`) |
 | MCP / connectors | **Capabilities -> Connectors** (`/capabilities?tab=connectors`) |
 
-The CLI stays available for reading state, verifying, and the few things the app has no field for - confirmed fallback chains, plugin validation, capability inspection, doctor, and the supply-chain audit. Full table: [`references/desktop-surfaces.md`](references/desktop-surfaces.md).
+The CLI stays available for reading state, verifying, and the few things the app has no field for - confirmed fallback chains, plugin validation, capability inspection, doctor, and the supply-chain audit. Full table: [`references/desktop-surfaces.md`](skills/hermes-optimizer/references/desktop-surfaces.md).
 
 ---
 
@@ -211,7 +211,7 @@ The CLI stays available for reading state, verifying, and the few things the app
 
 | File | Purpose |
 |------|---------|
-| `SKILL.md` | Runtime skill: modes, core rules, anti-bloat test, phase table, lane model. |
+| `skills/hermes-optimizer/SKILL.md` | Runtime skill: modes, core rules, anti-bloat test, phase table, lane model. |
 | `references/phase-plan.md` | Per-phase questions, actions, and checkpoint criteria. |
 | `references/desktop-surfaces.md` | The real Desktop routes for each phase, plus the CLI fallback table. |
 | `references/plugin-baseline.md` | The baseline plugin set by category, and the fit test that filters it. |
@@ -257,7 +257,7 @@ The CLI stays available for reading state, verifying, and the few things the app
 ```text
 hermes-optimizer/
 ├── README.md
-├── SKILL.md
+├── skills.sh.json
 ├── LICENSE
 ├── CHANGELOG.md
 ├── KANBAN.md
@@ -273,18 +273,21 @@ hermes-optimizer/
 │   ├── hermes-optimizer-hero.svg
 │   ├── architecture-flow.svg
 │   └── social-preview.png
-├── references/
-│   ├── phase-plan.md
-│   ├── desktop-surfaces.md
-│   ├── plugin-baseline.md
-│   ├── auxiliary-config-shape.md
-│   ├── audit-output.md
-│   ├── skill-trim.md
-│   ├── provider-autodiscovery.md
-│   ├── imported-skills.md
-│   └── synthesis-map.md
-└── notes/
-    └── current-routing.md
+└── skills/
+    └── hermes-optimizer/
+        ├── SKILL.md
+        ├── references/
+        │   ├── phase-plan.md
+        │   ├── desktop-surfaces.md
+        │   ├── plugin-baseline.md
+        │   ├── auxiliary-config-shape.md
+        │   ├── audit-output.md
+        │   ├── skill-trim.md
+        │   ├── provider-autodiscovery.md
+        │   ├── imported-skills.md
+        │   └── synthesis-map.md
+        └── notes/
+            └── current-routing.md
 ```
 
 </details>

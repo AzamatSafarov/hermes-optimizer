@@ -1,0 +1,11 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Hermes Optimization",
+      "description": "Skills that bring a Hermes Agent install up to speed or tune an expensive one.",
+      "skills": ["hermes-optimizer"]
+    }
+  ]
+}

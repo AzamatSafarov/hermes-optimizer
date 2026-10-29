@@ -20,14 +20,14 @@ It works as a guided loop: read live state, ask what inspection cannot answer, a
 
 ## Key files
 - README.md
-- SKILL.md
-- references/phase-plan.md
-- references/desktop-surfaces.md
-- references/plugin-baseline.md
-- references/auxiliary-config-shape.md
-- references/audit-output.md
-- references/skill-trim.md
+- skills/hermes-optimizer/SKILL.md
+- skills/hermes-optimizer/references/phase-plan.md
+- skills/hermes-optimizer/references/desktop-surfaces.md
+- skills/hermes-optimizer/references/plugin-baseline.md
+- skills/hermes-optimizer/references/auxiliary-config-shape.md
+- skills/hermes-optimizer/references/audit-output.md
+- skills/hermes-optimizer/references/skill-trim.md
 
 ## Install
-- `hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/SKILL.md -y`
+- `hermes skills install https://raw.githubusercontent.com/AzamatSafarov/hermes-optimizer/main/skills/hermes-optimizer/SKILL.md -y`
 - `hermes skills tap add AzamatSafarov/hermes-optimizer`

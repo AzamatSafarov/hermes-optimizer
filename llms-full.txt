@@ -57,11 +57,11 @@ CLI is for reading state, verifying, and what the app has no field for.
 - never write umbrella auxiliary keys (heavy/medium/light), the Desktop page does not parse them
 
 ## Important references
-- SKILL.md
+- skills/hermes-optimizer/SKILL.md
 - README.md
-- references/phase-plan.md
-- references/desktop-surfaces.md
-- references/plugin-baseline.md
-- references/auxiliary-config-shape.md
-- references/audit-output.md
-- references/skill-trim.md
+- skills/hermes-optimizer/references/phase-plan.md
+- skills/hermes-optimizer/references/desktop-surfaces.md
+- skills/hermes-optimizer/references/plugin-baseline.md
+- skills/hermes-optimizer/references/auxiliary-config-shape.md
+- skills/hermes-optimizer/references/audit-output.md
+- skills/hermes-optimizer/references/skill-trim.md
